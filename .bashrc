@@ -89,8 +89,8 @@ fi
 
 # some more ls aliases
 alias ll='ls -alF'
-alias la='ls -A'
 alias l='ls -CF'
+#alias la='ls -A'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -115,3 +115,40 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+
+
+#  My customizations here
+
+alias la='ls -alh'
+alias jump='ssh jump'
+alias gpconnect='globalprotect connect --portal amc-vpn.ucdenver.edu'
+alias gpdisconnect='globalprotect disconnect'
+
+PATH="/home/corey/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/corey/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/corey/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/corey/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/corey/perl5"; export PERL_MM_OPT;
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/corey/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/corey/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/corey/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/corey/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/corey/.local/google-cloud-sdk/path.bash.inc' ]; then . '/home/corey/.local/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/corey/.local/google-cloud-sdk/completion.bash.inc' ]; then . '/home/corey/.local/google-cloud-sdk/completion.bash.inc'; fi
