@@ -47,14 +47,22 @@ function parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
+function test_branch_ahead() {
+  [[ -n $(git log $1..$2 -1 2> /dev/null) ||
+}
+
 function color_git_branch() {
   branch="$(parse_git_branch)"
   if [ "$branch" = "(master)" ] || [ "$branch" = "(main)" ]; then
      echo -e " \001\033[07;31m\002${branch}\001\033[00m\002" # red
-  elif [ "$branch" = "" ]; then
+   elif [ "$branch" = "" ]; then
      echo -e ""
   else
-     echo -e " \001\033[0;32m\002${branch}\001\033[00m\002" # green
+    if [[ -n "$(git status --porcelain 2> /dev/null)" ]]; then
+      echo -e " \001\033[0;36m\002${branch}\001\033[00m\002" # cyan
+    else
+      echo -e " \001\033[0;32m\002${branch}\001\033[00m\002" # green
+    fi
   fi
 }
 
