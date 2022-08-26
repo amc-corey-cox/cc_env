@@ -6,4 +6,7 @@ Python Modules:
   tarfile
   pandas
   yaml
+  embiggen
+  ensmallen - requires Armadillo
+  grape
 
