@@ -3,3 +3,5 @@ This folder contains a .md file for each piece of software I regularly installl 
 Here is a list of all the software installed and basic information about them.
 
 
+Gimp
+Terminology
