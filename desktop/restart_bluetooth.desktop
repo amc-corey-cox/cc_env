@@ -1,0 +1,13 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon[en_US]=/home/corey/.local/share/icons/bluetooth-active.svg
+Name[en_US]=Restart Bluetooth
+Comment[en_US]=Restarts network service to fix dropped network issue.
+Exec=sudo /usr/local/sbin/restart_bluetooth.sh
+Comment=Restarts network service to fix dropped network issue.
+Name=Restart Bluetooth
+Icon=bluetooth
