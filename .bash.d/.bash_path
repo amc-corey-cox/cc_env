@@ -2,6 +2,17 @@
 # Set up custom paths for bash profile
 # Source from .bashrc
 
+# The PATH is set in these other files in the system in approximately this order
+# 
+# /etc/environment - System-wide environment variables for all shells
+# /etc/xprofile - System-wide profile for X window sessions for all shells
+# /etc/profile - System-wide profile for all shells
+# /etc/bash.bashrc - System-wide rc file for Bash shells
+# ~/.pam_environment - User specific environment loaded by PAM on user sessions
+# ~/.xprofile - User specific profile for X window sessions for all shells
+# ~/profile - User specific profile for all shells --- Most PATH changes should go here
+# ~/.bashrc - User specific profile for Bash shells --- Ours sources this file
+
 # Setup PERL5 environment variables
 PATH="/home/corey/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="/home/corey/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
