@@ -8,4 +8,4 @@ Install by unpacking to /opt
 sudo tar xzf pycharm-*.tar.gz -C /opt/pyCharm
 ```
 
-add opt/pyCharm/bin to PATH
+add opt/pyCharm/bin to PATH in .profile
