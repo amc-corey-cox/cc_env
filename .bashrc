@@ -35,7 +35,7 @@ BASHD=/home/corey/.bash.d
 
 # import all files from .bash.d
 # includes alliaces, path, and ps1
-if [[ -d ]]; then
+if [[ -d "${BASHD}" ]]; then
   for f in "$BASHD"/.bash_*; do
     if [[ -r $f ]]; then
       . $f
