@@ -53,7 +53,6 @@ function color_git_branch() {
      echo -e " \001\033[07;31m\002${branch}\001\033[00m\002" # red
   elif [ "$branch" = "" ]; then
      echo -e ""
-
   else
     if [[ -n "$(git status --porcelain 2> /dev/null)" ]]; then
       echo -e " \001\033[0;36m\002${branch}\001\033[00m\002" # cyan
@@ -63,10 +62,71 @@ function color_git_branch() {
   fi
 }
 
+function git_venv_root() {
+  local git_root="$(git rev-parse --show-toplevel 2>/dev/null)"
+  if [[ -d "${git_root}/.venv" ]]; then
+    echo -e "${git_root}/.venv"
+  else
+    echo -e ""
+  fi
+}
+
+function get_venv_name() {
+  if [[ -n $1 ]]; then
+    local venv_root=$1
+  else 
+    local venv_root="$(git_venv_root)"
+  fi
+  if [[ -f "${venv_root}/venv_name.txt" ]]; then
+    echo -e "$(cat ${venv_root}/venv_name.txt)"
+  else
+    echo -e "$(basename ${venv_root})"
+  fi
+}
+
+function parse_git_venv() {
+  if [[ "$(parse_git_branch)" = "" ]]; then
+    echo -e ""
+  else
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+      if [[ "$VIRTUAL_ENV" = "$(git_venv_root)" ]]; then
+        echo -e "($(get_venv_name))" # venv is active and correct
+      elif [[ -n "$(git_venv_root)" ]]; then
+        echo -e "!!$(get_venv_name $VIRTUAL_ENV) \u2260 $(get_venv_name)!!" # venv is active but incorrect
+      else
+        echo -e "!!$(get_venv_name $VIRTUAL_ENV)!!" # venv is inactive
+      fi
+    else
+      if [[ -n "$(git_venv_root)" ]]; then
+        echo -e "*$(get_venv_name)*"
+      else
+        echo -e ""
+      fi
+    fi
+  fi
+}
+
+function color_git_venv() {
+  local parsed_venv="$(parse_git_venv)"
+  local venv_color=""
+  if [[ ${parsed_venv} == "" ]] ; then
+    echo -e ""
+  else
+    if [[ ${parsed_venv:0:1} == "(" ]] ; then
+      venv_color="\001\033[01;32m\002" # venv is active and correct = green
+    elif [[ ${parsed_venv:0:1} == "*" ]] ; then
+      venv_color="\001\033[0;33m\002" # venv is inactive = yellow
+    elif [[ ${parsed_venv:0:1} == "!" ]] ; then
+      venv_color="\001\033[01;31m\002" # venv is active but incorrect = red
+    fi
+    echo -e "${venv_color}${parsed_venv} \001\033[00m\002"
+  fi
+}
+
 if [ "$color_prompt" = yes ]; then
-  PS1=' $(exit_status) ${chroot_ps1}${BLUE}\u@\h${CLEAR}:${WHITE}\w${CLEAR}$(color_git_branch) \$ '
+  PS1=' $(exit_status) $(color_git_venv)${chroot_ps1}${BLUE}\u@\h${CLEAR}:${WHITE}\w${CLEAR}$(color_git_branch) \$ '
 else
-  PS1='${chroot_ps1}\u@\h:\w $(parse_git_branch) \$ '
+  PS1='$(parse_git_venv)${chroot_ps1}\u@\h:\w $(parse_git_branch) \$ '
 fi
 unset color_prompt force_color_prompt
 
