@@ -72,7 +72,28 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Use pyenv to manage Python versions
-export PATH="$HOME/.pyenv/bin:$PATH"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+
+# Create an activate function to locate current repository venv and activate it.
+function activate() {
+  local venv_root="$(git_venv_root)"
+  if [[ "${venv_root}" == "" ]]; then
+    echo -e "No virtual environment found, could not activate."
+    return 1
+  else
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+      if [[ "$VIRTUAL_ENV" == "${venv_root}" ]]; then
+        echo -e "Virtual environment already active, run deactive"
+        return 2
+      else
+        echo -e "Different virtual environment active, deactivating..."
+        deactivate
+      fi
+    fi
+    echo -e "Activating the virtual environment at ${venv_root}."
+    source "${venv_root}/bin/activate"
+  fi
+}
 
