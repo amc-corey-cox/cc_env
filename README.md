@@ -38,7 +38,16 @@ I would prefer to install both browsers as Snaps because they present the greate
 Ubuntu may have some base command line tools that aren't strictly necessary for average users. A couple of examples are git and curl.
 As I discover other basic command line tools I need I will try to add them here.
 
-## Git
+### Bash Setup
+I'm a little picky about my bash setup. I have a directory, .bash.d, and .bashrc for managing my path and environment setup in a more structured way. To set this up run the following commands from the repo root.
+```
+cp -R .bash.d ~
+mv ~/.bashrc ~/.bashrc.ubuntu
+cp .bashrc ~
+```
+After this it is a good idead to compare the copied .bash.d/ and .bashrc files with the .bashrc from ubuntu and make sure we aren't missing anything new that is nice to have.
+
+### Git
 Intallation and setup instructions for Git are in the setup/git.md file. This is a somewhat complicated setup so I recommend going through the file for complete setup guide as opposed to just `apt install git-all`.
 
 
@@ -47,6 +56,9 @@ Default Ubuntu doesn't come with curl which is often considered a basic CLI tool
 ```
 sudo apt install curl
 ```
+
+### Editors - VIM and NeoVIM
+I tend to use several IDE's for development, see below, but I also like to use VIM to edit files quickly at the command line. For installation of VIM and NeoVIM, refer to the setup/vim.md.
 
 ## Browsers
 Most of my work involves being online within multiple different websites usually through abrowser. These are the browsers I'm currently running.
