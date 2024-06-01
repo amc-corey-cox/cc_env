@@ -75,7 +75,7 @@ I currently have the Grammerly extension disabled because I'm not sure if I'm al
 
 ## Chrome
 Chrome has been my default browser for a long time but, alas, due to recent business decisions I will be de-emphasizing my use of it. I will continue to use Chrome for anything sepcifically within the Google environment.
-Due to some changes to the App Center, Google Chrome can't be installed directly from the .deb downloaded from the website, this will likely change soon. In the meantime, the most reliable way to install appears to be to manually add the Google Chrome repository signing key and repository.
+Instructions for installing chrome are in setup/chrome.md.
 
 
 
