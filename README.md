@@ -50,7 +50,6 @@ After this it is a good idead to compare the copied .bash.d/ and .bashrc files w
 ### Git
 Intallation and setup instructions for Git are in the setup/git.md file. This is a somewhat complicated setup so I recommend going through the file for complete setup guide as opposed to just `apt install git-all`.
 
-
 ### Curl
 Default Ubuntu doesn't come with curl which is often considered a basic CLI tool. Curl is often used for software installation, testing, and development. Install curl using apt with the following command.
 ```
@@ -60,23 +59,71 @@ sudo apt install curl
 ### Editors - VIM and NeoVIM
 I tend to use several IDE's for development, see below, but I also like to use VIM to edit files quickly at the command line. For installation of VIM and NeoVIM, refer to the setup/vim.md.
 
+## Terminal Emulators
+Ubuntu's default terminal is woefully insufficient. I need a full-featured terminal application.
+
+### Terminology
+Terminology remains my preferred and go-to Terminal Emulator. Terminology is part of the Enlightnement desktop environment and doesn't always play as nicely as I'd like with other desktop environments. 
+It appears installing Terminology is relatively straightforward now.
+```
+sudo apt update
+sudo apt install terminology
+```
+I generally have to play around with this for a little bit to get things looking the way that I like but otherwise there is no specific configuration.
+Unfortunately, I can't figure out how to get one aesthetic feature of past versions that I really liked working again. 
+
+### Kitty
+Kitty is a highly-recommended full-featured terminal emulator. I think I should give it a try.
+Installing Kitty appears pretty simple.
+```
+sudo apt install kitty
+```
+
+
 ## Browsers
 Most of my work involves being online within multiple different websites usually through abrowser. These are the browsers I'm currently running.
 
 ### Firefox
 Firefox is installed by default and so far there isn't anything necessary for installation except to install any updates, updates are located in 'App Center' and may have already been applied above.
 
-### Firefox Sync
+#### Firefox Sync
 In the past, I haven't bothered with Firefox sync preferring Google Chrome and Lastpass to manage passwords and credentials. However, since I'm planning to make greater use of Firefox going forward I think I will give Firefox Sync a try. After ensuring Firefox is working and updated, log in to Firefox Sync using the credentials saved in the password manager.
 Firefox Sync also appears to sync extensions and other information (configurable) so once configured it should have all of Firefox set up correctly.
 
 ### Grammerly
 I currently have the Grammerly extension disabled because I'm not sure if I'm allowed to use it by UNC. I would like to add it back to my tools as soon as possible so may re-enable it soon; when I figure out an allowed way.
 
-## Chrome
+### Chrome
 Chrome has been my default browser for a long time but, alas, due to recent business decisions I will be de-emphasizing my use of it. I will continue to use Chrome for anything sepcifically within the Google environment.
 Instructions for installing chrome are in setup/chrome.md.
 
+### Chromium
+The Chromium browser is an open source version of the Chrome browser with out the Google branding or extras. Given my concerns about Google/Chrome I'm going to try it out as an additional browser option. Installation simply requires searching for it in the App Center and installing.
+
+
+# Programming Tools
+
+## Programming Environments
+Node, nvm
+Python, pyenv, poetry
+R
+
+## Programming IDEs
+pyCharm
+VSCode
+RStudio
+
+## Messaging Tools 
+Slack
+Zoom
+Teams
+
+# Other Software
+Transmission
+VirtualBox
+VLC
+Gimp
+InkScape
 
 
 # Old Stuff below
