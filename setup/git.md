@@ -68,3 +68,14 @@ It can also be convenient to save the gpg passphrase for longer. I set it to one
 echo "default-cache-ttl 2629800" > ~/.gnupg/gpg-agent.conf
 ```
 
+## Git Use Signing Key
+In order to use the signing key we either need to tell Git to sign with the key on each commit.
+```
+git commit -S 26624F37 -m "commit message"
+```
+Or we can tell configure git to use the key, and to always sign.
+```
+git config --global user.signingkey 26624F37
+git config --global commit.gpgsign true
+```
+I have also saved the password in Ubuntu's keyring because I feel my system is reasonably safe and my signing risk is low.
