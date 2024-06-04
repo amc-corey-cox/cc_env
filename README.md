@@ -147,7 +147,7 @@ I don't use R all that much at the moment but it continues to be a programming l
 gpg --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 gpg --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | sudo tee /usr/share/keyrings/r-cran-keyring.gpg > /dev/null
 echo deb [arch=amd64 signed-by=/usr/share/keyrings/r-cran-keyring.gpg] https://cloud.r-project.org/bin/linux/ubuntu noble-cran40/ | sudo tee /etc/apt/sources.list.d/r-cran.sources
-sudo apt install r-base r-base-dev
+sudo apt install r-base r-base-core r-base-dev
 ```
 This installs both the r-base and what we need to install R from source in case I have interest in hacking on R, too. I don't need it but it's nice to install just in case so I don't have to do it later.
 The above installs the public CRAN signing key to our local keyring which we don't need. Let's remove it.
@@ -163,21 +163,44 @@ sudo apt install perl
 As of yet, Perl doesn't need any special configuration.
 
 ## Programming IDEs
-pyCharm
-VSCode
-RStudio
+Here are the IDE's I typically install. In addition, I tend to use Vim for development as well.
+
+### pyCharm by IntelliJ
+The installation for pyCharm can now be handled by installation in the App Center which I plan to try for now. I have some other notes available in setup/pyCharm.md but I'm not using that for installation right now.
+PyCharm has community and professional editions, both available through the App Center. For now, I'm using the community edition but I plan to switch over to the professional edition when I have licensing approved.
+
+### VSCode
+VSCode also appears to be available through the App Center with the current version. Again, I'll be using this installation unless I see a reason to install in a different way.
+
+### RStudio
+RStudio is the best IDE for running anything in R. It looks like there isn't currently support for Ubuntu 24.04 but it appears I should be able to install using the 2024.4.1 release for Ubuntu 22. Download the .deb and install it.
+```
+wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-2024.04.1-748-amd64.deb
+sudo apt install rstudio-2024.04.1-748-amd64.deb
+sudo chmod 4755 /usr/lib/rstudio/chrome-sandbox
+```
+After changing the mode of rstudio/chrom-sandbox (which I don't really understand), I was able to get Rstudio running.
+
 
 ## Messaging Tools 
-Slack
-Zoom
-Teams
+
+### Slack
+
+### Zoom
+
+### Teams
 
 # Other Software
-Transmission
-VirtualBox
-VLC
-Gimp
-InkScape
+
+## Transmission
+
+## VirtualBox
+
+## VLC
+
+## Gimp
+
+## InkScape
 
 
 # Old Stuff below
