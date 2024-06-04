@@ -5,6 +5,9 @@ The initial use-case for was setting up my bash prompt with a smart attractive a
 
 This README.md will cover most of the basic initial setup and reference different .md files in the install-software directory for installation of other tools.
 
+# Dual Boot
+For installation with Windows 11 dual boot with option to run in a VM under Ubuntu, see windows11.md.
+
 # Installing Ubuntu
 I didn't manage to catch all the details of the install this time but the Ubuntu install is really straightforward. This time I used the defult selection rather than adding the office tools and utilities. I'll need to evaluate whether I think this was the right choice.
 I also think the third party drivers and additional media formats are important to install right away as I'm sure to need them later.
@@ -182,44 +185,40 @@ sudo chmod 4755 /usr/lib/rstudio/chrome-sandbox
 After changing the mode of rstudio/chrom-sandbox (which I don't really understand), I was able to get Rstudio running.
 
 
-## Messaging Tools 
-
-### Slack
-
-### Zoom
-
-### Teams
-
 # Other Software
-
-## Transmission
-
-## VirtualBox
-
-## VLC
-
-## Gimp
-
-## InkScape
+Other software that I generally like to have is all available without any issues from the App Center. They are:
+ - Slack - latest/stable
+ - Zoom - latest/edge
+ - Teams - latest/edge - no longer available as .deb from Microsoft
+ - Transmission - latest/stable
+ - VLC - latest/stable
+ - Gimp - latest/
+ - InkScape - latest/
 
 
-# Old Stuff below
+# Final Configuration
+There are a few things I used to do in system configuration listed below. Only the Icons are something I still consider important.
 
-
+## Icons
+I use a few programs that I don't really care for the default icons on. These icons and the associated .desktop files make them a little prettier to my eye.
 Copy .desktop files and icons to appropriate locations
 ```
 cp desktop/* ~/.local/share/applications/
 cp icons/* ~/.local/share/icons
 ```
 
-Copy sbin scripts to /usr/local/sbin
+## Scripts
+I used to have some trouble with bluetooth dropping my devices and these scripts fixed it. This is no longer needed but I'm not ready to get rid of the scripts just yet.
+Skip for now... Copy sbin scripts to /usr/local/sbin
 ```
 sudo chown root -R scripts/sbin
 sudo cp scripts/sbin/* /usr/local/sbin
 ```
 
+## Symlinks
+I used to create a symlink from `python` to `python3` because it was annoying to have to type `python3`. Since I manage `python` through pyenv this no longer matters most of the time. I'm keeping this here as a reminder.
 create symlink for python to python3
 ```
 sudo ln -s /usr/bin/python3 /usr/bin/python
 ```
-
+I think instead of using a symlink it would probably be better to create a simple bash function because this would only be during interactive sessions and would guarantee scripts don't attempt to use the wrong python.
