@@ -1,16 +1,10 @@
 " unlet! skip_defaults_vim
 source $VIMRUNTIME/defaults.vim
-color elflord
 set background=light
+color elflord
 set number
-set relativenumber
-
-set shiftwidth=2 smarttab
-set expandtab
+set shiftwidth=2
 set autoindent
 set smartindent
-
-set ignorecase
-set nohlsearch
-
+set expandtab
 set mouse-=a
