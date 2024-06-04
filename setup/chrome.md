@@ -2,9 +2,6 @@
 Chrome has been my favorite browser for a while now but I'm probably going to start moving to either Chromium or Firefox due to some unfortunate business decisions by Google.
 I'll continue to use Chrome for accessing tools within the Google ecosystem because it is likely to have an improved experience.
 
-I found good resources at this website:
-[Install Google Chrome on Ubuntu 24.04](https://www.linuxcapable.com/install-google-chrome-on-ubuntu-linux/)
-
 # Chrome Installation from .deb
 Google Chrome can't currently be installed by clicking the .deb downloaded from the website, this will likely change soon.
 We can install the .deb from the command line.
@@ -31,8 +28,10 @@ sudo apt-key del D38B4796
 
 In order to install Chrome, we'll need to first install Google's signed key and then add the Google Chrome apt source repository. Then we can update our apt sources and install Google Chrome.
 ```
-wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor | sudo tee /usr/share/keyrings/google-chrome-keyring.gpg > /dev/null
-echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main | sudo tee /etc/apt/sources.list.d/google-chrome.list
+wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor > google-chrome-keyring.gpg
+sudo mv google-chrome-keyring.gpg /usr/share/keyrings/google-chrome-keyring.gpg
+sudo chmod 644 /usr/share/keyrings/google-chrome-keyring.gpg
+sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list'
 sudo apt update
 sudo apt install google-chrome-stable
 ```
