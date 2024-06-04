@@ -23,27 +23,12 @@ Ubuntu Pro is a service provided for free from Ubuntu on up to 5 systems for bet
 ## Install Updates
 After the basic installation, install the updates from 'Software Updater' and 'App Center' so the system will be fully up-to-date.
 
-## Install Essential Build Tools
-Ubuntu comes without some of the basic build tools for development so let's install them.
-```
-sudo apt install build-essential
-```
-This installs things like gcc, make, and other important build tools.
-
-## Snap Store
+### Snap Store
 Updating Snap Store is kind of annoying because it cannot update itself while it is running. It appears Ubuntu still hasn't fixed this. To udate the Snap Store run the following command in the terminal.
 ```
 sudo snap refresh
 ```
 I believe this will refresh (update) all snaps but I haven't tested this, yet.
-
-## Gnome Tweaks
-There use some features of Gnome that aren't surfaced in the Ubuntu desktop. Installing Gnome Tweaks can let us at some additional settings.
-```
-sudo apt install gnome-tweaks
-```
-In particular, I like the focus follows mouse setting. I seem to only be able to enable it with Gnome Tweaks.
-
 
 # Basic System Software
 The primary basic system software for my day-to-day use is just the browsers Chrome and Firefox. With this system change I am planning to use Firefox more heavily for all of my needs except for services specifically in the Google ecosystem, i.e. GCloud and Google Suite. This is primarily due to unfortunate choices that Google has made in privacy and security; I also don't especially like where they appear to be headed with AI.
@@ -118,49 +103,11 @@ The Chromium browser is an open source version of the Chrome browser with out th
 
 
 # Programming Tools
-My system is used primarily for software development so I need a number of programming environments and IDE's.
 
 ## Programming Environments
-I have a number of programming environments I use in my development. Here I will quickly document how to install and set up each. If the setup is more detailed I will refer to a .md in the setup folder.
-
-### Node and nvm
-Ubuntu doesn't currenlty appear to ship with Node.js installed or use it for system management. However, the version in the apt repositories appears to be current so we can just install from there. I also use nvm for managing the Node environment to ensure I'm using the correct version for development of different repositories. Here we will install both.
-```
-sudo apt install nodejs
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-```
-The shell environment it already properly configured in the .bashrc that we installed earlier.
-
-### Python, pyenv, venv, and poetry
-Python is commonly used for many of our software projects so we need to install base python and system tools for managing versioning of Python, virtual environments, and installation of software for each repository. Python can be a bit tricky when working with multiple projects that aren't in sync so I have a method of trying to maintain isolation between environments.
-Ubuntu ships with a fairly current version of Python which we'll leave alone for the system to manage. For development, we want to install pyenv. 
-```
-sudo apt install libbz2-dev libncurses-dev libffi-dev libreadline-dev libssl-dev libsqlite3-dev liblzma-dev tk-dev
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-cd ~/.pyenv && src/configure && make -C src
-```
-Previously, I used the automated installer script but now I think I'd like to try out using the basic git clone method for installation. Theoretically, it is safer this way and it also gives an opportunity to see how it all works...
-
-### R
-I don't use R all that much at the moment but it continues to be a programming language I like to have on my system.
-```
-gpg --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-gpg --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | sudo tee /usr/share/keyrings/r-cran-keyring.gpg > /dev/null
-echo deb [arch=amd64 signed-by=/usr/share/keyrings/r-cran-keyring.gpg] https://cloud.r-project.org/bin/linux/ubuntu noble-cran40/ | sudo tee /etc/apt/sources.list.d/r-cran.sources
-sudo apt install r-base r-base-dev
-```
-This installs both the r-base and what we need to install R from source in case I have interest in hacking on R, too. I don't need it but it's nice to install just in case so I don't have to do it later.
-The above installs the public CRAN signing key to our local keyring which we don't need. Let's remove it.
-```
-gpg --delete-key E298A3A825C0D65DFD57CBB651716619E084DAB9
-```
-
-### Perl
-Perl is another legacy language that I just like to have around.
-```
-sudo apt install perl
-```
-As of yet, Perl doesn't need any special configuration.
+Node, nvm
+Python, pyenv, poetry
+R
 
 ## Programming IDEs
 pyCharm
