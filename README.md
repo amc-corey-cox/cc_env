@@ -64,7 +64,7 @@ Ubuntu's default terminal is woefully insufficient. I need a full-featured termi
 
 ### Terminology
 Terminology remains my preferred and go-to Terminal Emulator. Terminology is part of the Enlightnement desktop environment and doesn't always play as nicely as I'd like with other desktop environments. 
-The version of Termonology listed in the App Center is out of date. Installing Terminology using apt in CLI gets the newest version.
+It appears installing Terminology is relatively straightforward now.
 ```
 sudo apt update
 sudo apt install terminology
@@ -78,7 +78,6 @@ Installing Kitty appears pretty simple.
 ```
 sudo apt install kitty
 ```
-I don't know yet what my preferences are for configuration in Kitty; when I do, I'll try to improve this entry or add an .md file.
 
 
 ## Browsers
