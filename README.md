@@ -184,6 +184,15 @@ sudo chmod 4755 /usr/lib/rstudio/chrome-sandbox
 ```
 After changing the mode of rstudio/chrom-sandbox (which I don't really understand), I was able to get Rstudio running.
 
+## Compute Abstraction
+Several of my programming projects use containerization to run locally or deply apps. I use Docker for containerization and deployment and KVM will likely be used for running virtual OS's such as Windows 11 pro.
+
+### KVM
+Docker requires some parts of KVM for installation. We'll add those here. I will make changes to this installation as necessary for using KVM more broadly, for instance for Windows 11 pro virtual hosting. Instructions for setup and installation are in setup/kvm.md.
+
+### Docker
+The installation of Docker on Linux is fairly complex. Please see setup/docker.md for details on how to install.
+
 
 # Other Software
 Other software that I generally like to have is all available without any issues from the App Center. They are:
