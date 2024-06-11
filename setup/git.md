@@ -79,3 +79,16 @@ git config --global user.signingkey 26624F37
 git config --global commit.gpgsign true
 ```
 I have also saved the password in Ubuntu's keyring because I feel my system is reasonably safe and my signing risk is low.
+
+
+## Install GitHub CLI tools
+The GitHub CLI tools allow us to do some things on GitHub from the command line. Honestly, I don't use them all that often but it is nice to have them installed in case I need them at some point.
+
+Installation requires adding the GPG key and repository then installation with apt.
+```
+wget -q -O - https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /usr/share/keyrings/githubcli-archive-keyring.gpg > /dev/null 
+echo -n "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+sudo apt update
+sudo apt install gh -y
+```
+
