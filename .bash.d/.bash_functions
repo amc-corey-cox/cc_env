@@ -9,5 +9,6 @@
 function rm() {
     echo "Use 'trash' instead of 'rm'."
     echo "To use 'rm', use '\rm' or 'command rm'."
+    return 1
 }
 
