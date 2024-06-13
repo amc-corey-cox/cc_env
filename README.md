@@ -56,6 +56,15 @@ I would prefer to install both browsers as Snaps because they present the greate
 Ubuntu may have some base command line tools that aren't strictly necessary for average users. A couple of examples are git and curl.
 As I discover other basic command line tools I need I will try to add them here.
 
+
+### Install Trash
+I'm trying to change my habit on deleting files at the command line. In the past, I've just used rm regularly as needed when deleting things. I have frequently ended up burned by this behavior, deleting something I had not intended to. In order to change this, I first need to install a program for handling file removal more reversibly.
+To install `trash` run the following command.
+```
+sudo apt install trash-cli
+```
+I also have a function in ~/.bash.d/.bash_functions that replaces rm with a message to remind me.
+
 ### Bash Setup
 I'm a little picky about my bash setup. I have a directory, .bash.d, and .bashrc for managing my path and environment setup in a more structured way. To set this up run the following commands from the repo root.
 ```
