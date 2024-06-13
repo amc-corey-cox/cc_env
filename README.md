@@ -192,6 +192,10 @@ I used these sources of information to figure out this issue:
 (StackOverflow)[https://stackoverflow.com/questions/78584630/visual-studio-code-crashes-with-errorprocess-memory-range-cc75-read-out]
 (VSCode GitHub Issue)[https://github.com/microsoft/vscode/issues/204159]
 
+### Jupyter Notebooks
+JupiterLab is a next-generation lab notebook we use for exploratory coding and documentation. JupyterLab is available in the Ubuntu App Center so I'll try to install it from there for now. I have installed both Jupyter Labs desktop and Jupyter Notebook packages from the App Center.
+The Notebooks is the more familiar interface but the Labs appears to be more powerful and to have better integration. We'll see how things go.
+
 ### RStudio
 RStudio is the best IDE for running anything in R. It looks like there isn't currently support for Ubuntu 24.04 but it appears I should be able to install using the 2024.4.1 release for Ubuntu 22. Download the .deb and install it.
 ```
