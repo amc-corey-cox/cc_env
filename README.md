@@ -56,6 +56,15 @@ I would prefer to install both browsers as Snaps because they present the greate
 Ubuntu may have some base command line tools that aren't strictly necessary for average users. A couple of examples are git and curl.
 As I discover other basic command line tools I need I will try to add them here.
 
+
+### Install Trash
+I'm trying to change my habit on deleting files at the command line. In the past, I've just used rm regularly as needed when deleting things. I have frequently ended up burned by this behavior, deleting something I had not intended to. In order to change this, I first need to install a program for handling file removal more reversibly.
+To install `trash` run the following command.
+```
+sudo apt install trash-cli
+```
+I also have a function in ~/.bash.d/.bash_functions that replaces rm with a message to remind me.
+
 ### Bash Setup
 I'm a little picky about my bash setup. I have a directory, .bash.d, and .bashrc for managing my path and environment setup in a more structured way. To set this up run the following commands from the repo root.
 ```
@@ -174,6 +183,18 @@ PyCharm has community and professional editions, both available through the App 
 
 ### VSCode
 VSCode also appears to be available through the App Center with the current version. Again, I'll be using this installation unless I see a reason to install in a different way.
+I did run into a fairly annoying problem; VSCode (just `code` at the command line) crashes on startup with the newest Snap. Fortunately, there is a very simple workaround. I've copied the VSCode desktop file to desktop/, copy it to the correct location.
+```
+cp desktop/code_code.desktop ~/.local/share/applications/code_code.desktop
+```
+The next time the snap is updated, I should review whether this is still needed. If not I should delete the file. I will also update here.
+I used these sources of information to figure out this issue: 
+(StackOverflow)[https://stackoverflow.com/questions/78584630/visual-studio-code-crashes-with-errorprocess-memory-range-cc75-read-out]
+(VSCode GitHub Issue)[https://github.com/microsoft/vscode/issues/204159]
+
+### Jupyter Notebooks
+JupiterLab is a next-generation lab notebook we use for exploratory coding and documentation. JupyterLab is available in the Ubuntu App Center so I'll try to install it from there for now. I have installed both Jupyter Labs desktop and Jupyter Notebook packages from the App Center.
+The Notebooks is the more familiar interface but the Labs appears to be more powerful and to have better integration. We'll see how things go.
 
 ### RStudio
 RStudio is the best IDE for running anything in R. It looks like there isn't currently support for Ubuntu 24.04 but it appears I should be able to install using the 2024.4.1 release for Ubuntu 22. Download the .deb and install it.
@@ -183,6 +204,15 @@ sudo apt install rstudio-2024.04.1-748-amd64.deb
 sudo chmod 4755 /usr/lib/rstudio/chrome-sandbox
 ```
 After changing the mode of rstudio/chrom-sandbox (which I don't really understand), I was able to get Rstudio running.
+
+## Compute Abstraction
+Several of my programming projects use containerization to run locally or deply apps. I use Docker for containerization and deployment and KVM will likely be used for running virtual OS's such as Windows 11 pro.
+
+### KVM
+Docker requires some parts of KVM for installation. We'll add those here. I will make changes to this installation as necessary for using KVM more broadly, for instance for Windows 11 pro virtual hosting. Instructions for setup and installation are in setup/kvm.md.
+
+### Docker
+The installation of Docker on Linux is fairly complex. Please see setup/docker.md for details on how to install.
 
 
 # Other Software

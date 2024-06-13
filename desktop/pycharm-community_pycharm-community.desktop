@@ -1,0 +1,12 @@
+[Desktop Entry]
+X-SnapInstanceName=pycharm-community
+Version=1.0
+Type=Application
+Name=PyCharm Community Edition
+Icon=/home/corey/.local/share/icons/pycharm-numix.svg
+Exec=env BAMF_DESKTOP_FILE_HINT=/var/lib/snapd/desktop/applications/pycharm-community_pycharm-community.desktop /snap/bin/pycharm-community %f
+Comment=Python IDE for Professional Developers
+Categories=Development;IDE;
+Terminal=false
+StartupWMClass=jetbrains-pycharm-ce
+StartupNotify=true
