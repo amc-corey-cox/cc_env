@@ -174,6 +174,14 @@ PyCharm has community and professional editions, both available through the App 
 
 ### VSCode
 VSCode also appears to be available through the App Center with the current version. Again, I'll be using this installation unless I see a reason to install in a different way.
+I did run into a fairly annoying problem; VSCode (just `code` at the command line) crashes on startup with the newest Snap. Fortunately, there is a very simple workaround. I've copied the VSCode desktop file to desktop/, copy it to the correct location.
+```
+cp desktop/code_code.desktop ~/.local/share/applications/code_code.desktop
+```
+The next time the snap is updated, I should review whether this is still needed. If not I should delete the file. I will also update here.
+I used these sources of information to figure out this issue: 
+(StackOverflow)[https://stackoverflow.com/questions/78584630/visual-studio-code-crashes-with-errorprocess-memory-range-cc75-read-out]
+(VSCode GitHub Issue)[https://github.com/microsoft/vscode/issues/204159]
 
 ### RStudio
 RStudio is the best IDE for running anything in R. It looks like there isn't currently support for Ubuntu 24.04 but it appears I should be able to install using the 2024.4.1 release for Ubuntu 22. Download the .deb and install it.
