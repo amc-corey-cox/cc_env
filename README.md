@@ -181,16 +181,15 @@ Here are the IDE's I typically install. In addition, I tend to use Vim for devel
 The installation for pyCharm can now be handled by installation in the App Center which I plan to try for now. I have some other notes available in setup/pyCharm.md but I'm not using that for installation right now.
 PyCharm has community and professional editions, both available through the App Center. For now, I'm using the community edition but I plan to switch over to the professional edition when I have licensing approved.
 
-### VSCode
+#### pyCharm plugins
+Additional information for setting up pyCharm plugins is available in setup/pyCharm.md.
+
+### Visual Studio Code
 VSCode also appears to be available through the App Center with the current version. Again, I'll be using this installation unless I see a reason to install in a different way.
-I did run into a fairly annoying problem; VSCode (just `code` at the command line) crashes on startup with the newest Snap. Fortunately, there is a very simple workaround. I've copied the VSCode desktop file to desktop/, copy it to the correct location.
-```
-cp desktop/code_code.desktop ~/.local/share/applications/code_code.desktop
-```
-The next time the snap is updated, I should review whether this is still needed. If not I should delete the file. I will also update here.
-I used these sources of information to figure out this issue: 
-(StackOverflow)[https://stackoverflow.com/questions/78584630/visual-studio-code-crashes-with-errorprocess-memory-range-cc75-read-out]
-(VSCode GitHub Issue)[https://github.com/microsoft/vscode/issues/204159]
+For more information on VS Code installation refer to setup/vsCode.md
+
+#### VS Code plugins
+Additional information on plugins I use for Visual Studio Code can be found in setup/vsCode.md.
 
 ### Jupyter Notebooks
 JupiterLab is a next-generation lab notebook we use for exploratory coding and documentation. JupyterLab is available in the Ubuntu App Center so I'll try to install it from there for now. I have installed both Jupyter Labs desktop and Jupyter Notebook packages from the App Center.
