@@ -26,3 +26,6 @@ The pyCharm IDE has a lot of plugins to improving programming with different asp
 
 ### Plugins List
 Here are the plugins I'm currently using. If the plugin is just listed below it didn't require any non-obvious setup to get working properly. Any plugins requiring more effort will have an additional entry below.
+
+ * Docker - by JetBrains
+ * GitHub CoPilot - by GitHub
