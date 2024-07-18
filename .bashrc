@@ -78,7 +78,7 @@ eval "$(pyenv init -)"
 
 # Create an activate function to locate current repository venv and activate it.
 function activate() {
-  local venv_root="$(git_venv_root)"
+  local venv_root="$(get_venv_root)"
   if [[ "${venv_root}" == "" ]]; then
     echo -e "No virtual environment found, could not activate."
     return 1
