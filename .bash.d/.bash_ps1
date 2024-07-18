@@ -100,7 +100,11 @@ function parse_venv() {
       echo -e "-${active_name}-" # venv active but not in repo or parents
     fi
   elif [[ -n "${venv_name}" ]]; then
-    echo -e "*$(get_venv_name)*" # venv is in repo or parents but inactive
+    if [[ -n "$(parse_git_branch)" ]]; then
+      echo -e "*$(get_venv_name)*" # venv is in repo but inactive
+    else
+      echo -e "+$(get_venv_name)+" # venv is in parents but inactive
+    fi
   fi
 }
 
@@ -114,8 +118,8 @@ function color_git_venv() {
     elif [[ "${venv_check}" == "!" ]] ; then
       venv_color="\001\033[01;31m\002" # venv is active but incorrect = red
     elif [[ "${venv_check}" == "-" ]] ; then
-      venv_color="\001\033[01;36m\002" # venv is active but not in repo or parents = cyan
-    elif [[ "${venv_check}" == "*" ]] ; then
+      venv_color="\001\033[01;36m\002" # active venv is not in repo or parents = cyan
+    elif [[ "${venv_check}" == "*" || "${venv_check}" == "+" ]] ; then
       venv_color="\001\033[0;33m\002" # venv is inactive = yellow
     fi
     echo -e "${venv_color}${parsed_venv} \001\033[00m\002"
