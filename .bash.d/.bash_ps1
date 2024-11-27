@@ -92,7 +92,7 @@ function get_venv_name() {
   local venv_root=${1:-$(get_venv_root)}
   
   if [[ -z "${venv_root}" ]]; then
-    echo -e "no_name"
+    echo -e ""
     return
   fi
 
