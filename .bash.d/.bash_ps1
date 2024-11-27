@@ -38,6 +38,21 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 fi
 chroot_ps1=${debian_chroot:+($debian_chroot)}
 
+function trim_whitespace() {
+  local input="$1"
+  local mode="${2:-}"
+
+  if [[ "$mode" == "l" || "$mode" == "" ]]; then
+    input="${input#"${input%%[![:space:]]*}"}"
+  fi
+
+  if [[ "$mode" == "r" || "$mode" == "" ]]; then
+    input="${input%"${input##*[![:space:]]}"}"
+  fi
+
+  echo "$input"
+}
+
 # set colors for user host and working directory/path
 BLUE=$(echo -e "\001\033[01;34m\002")
 WHITE=$(echo -e "\001\033[00;37m\002")
@@ -74,16 +89,29 @@ function get_venv_root() {
 }
 
 function get_venv_name() {
-  if [[ -n $1 ]]; then
-    local venv_root=$1
-  else 
-    local venv_root="$(get_venv_root)"
+  local venv_root=${1:-$(get_venv_root)}
+  
+  if [[ -z "${venv_root}" ]]; then
+    echo -e "no_name"
+    return
   fi
-  if [[ -f "${venv_root}/venv_name.txt" ]]; then
-    echo -e "$(cat ${venv_root}/venv_name.txt)"
-  elif [[ -n "${venv_root}" ]]; then
-    echo -e "$(basename ${venv_root})"
+
+  local venv_name=""
+  local pyvenv_cfg="${venv_root}/pyvenv.cfg"
+  
+  if [[ -f "${pyvenv_cfg}" ]]; then
+    venv_name=$(awk -F= '/^name=/ {print $2}' "${pyvenv_cfg}")
   fi
+
+  if [[ -z "${venv_name}" && -f "${venv_root}/venv_name.txt" ]]; then
+    venv_name=$(cat ${venv_root}/venv_name.txt)
+  fi
+
+  if [[ -z "${venv_name}" && -n "${venv_root}" ]]; then
+    venv_name=$(basename ${venv_root})
+  fi
+
+  trim_whitespace "${venv_name}"
 }
 
 function parse_venv() {
