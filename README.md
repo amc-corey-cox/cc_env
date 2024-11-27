@@ -153,6 +153,13 @@ cd ~/.pyenv && src/configure && make -C src
 ```
 Previously, I used the automated installer script but now I think I'd like to try out using the basic git clone method for installation. Theoretically, it is safer this way and it also gives an opportunity to see how it all works...
 
+### Rust
+The recommended way to install Rust is to use the script and pipe it to sh. It isn't ideal but I like it better than how the Ubuntu snap works and it should be the most up-to-date.
+```
+curl https://sh.rustup.rs -sSf | sh
+```
+This script adds a line to .bashrc and .profile to invoke the Rust ~/.cargo/env file to add ~/.cargo/bin to the path. Despite this just adding an entry to the path, I think it is probably best to go ahead and use this method. I have moved this invocation into the appropriate area in my .bashrc. During installation either customize the install to prevent adding the lines or remove them later.
+
 ### R
 I don't use R all that much at the moment but it continues to be a programming language I like to have on my system.
 ```

@@ -76,6 +76,9 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+# Exec cargo env to manage Rust versions
+. "$HOME/.cargo/env"
+
 # Create an activate function to locate current repository venv and activate it.
 function activate() {
   local venv_root="$(get_venv_root)"
