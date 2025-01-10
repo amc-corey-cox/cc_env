@@ -77,17 +77,6 @@ function color_git_branch() {
   fi
 }
 
-function get_venv_root() {
-  local dir="$PWD"
-  while [ "$dir" != "/" ]; do
-    if [ -d "$dir/.venv" ]; then
-      echo -e "$dir/.venv"
-      return
-    fi
-    dir=$(dirname "$dir")
-  done
-}
-
 function get_venv_name() {
   local venv_root=${1:-$(get_venv_root)}
   
