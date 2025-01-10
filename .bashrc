@@ -76,6 +76,10 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+# Add uv to manage Python publishing, package management, versions, and virtual environments.
+PATH="$HOME/.uv/" # Add to PATH
+eval "$(~/.uv/uv generate-shell-completion bash)" # Code completion
+
 # Create an activate function to locate current repository venv and activate it.
 function activate() {
   local venv_root="$(get_venv_root)"
