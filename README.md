@@ -153,12 +153,23 @@ cd ~/.pyenv && src/configure && make -C src
 ```
 Previously, I used the automated installer script but now I think I'd like to try out using the basic git clone method for installation. Theoretically, it is safer this way and it also gives an opportunity to see how it all works...
 
+### Python and uv
+Another strategy for Python is a universal tool to manage packages, python version, and virtual environments called uv. Because uv is written in rust and separate from the entire Python environment using system wide presents less risk of version compatibility issues. The uv project recommends installation with curl.
+```
+curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="$HOME/.uv" INSTALLER_NO_MODIFY_PATH=1 sh
+```
+This invocation of the installer disables the modification of the PATH variable, which I prefer to manage myself. We also need to make sure the path is added to our PATH variable in .bashrc. I have also added the command completion to the .bashrc.
+
+Other installation methods, such as pip, can be used but they tie the updates to that version manager and disable self updating within uv. For this reason, I have elected to use the recommended script install. As always, it's best to examine the script before installing, which can be done with.
+```
+curl -LsSf https://astral.sh/uv/install.sh | less
+```
 ### Rust
 The recommended way to install Rust is to use the script and pipe it to sh. It isn't ideal but I like it better than how the Ubuntu snap works and it should be the most up-to-date.
 ```
 curl https://sh.rustup.rs -sSf | sh
 ```
-This script adds a line to .bashrc and .profile to invoke the Rust ~/.cargo/env file to add ~/.cargo/bin to the path. Despite this just adding an entry to the path, I think it is probably best to go ahead and use this method. I have moved this invocation into the appropriate area in my .bashrc. During installation either customize the install to prevent adding the lines or remove them later.
+This script adds a line to .bashrc and .profile to invoke the Rust ~/.cargo/env file to add ~/.cargo/bin to the path. Despite this just adding an entry to the path, I think it is probably best to go ahead and use this method. I have moved this invocation into the appropriate area in my `.bash.d/.bash_env`. During installation either customize the install to prevent adding the lines or remove them later.
 
 ### R
 I don't use R all that much at the moment but it continues to be a programming language I like to have on my system.
