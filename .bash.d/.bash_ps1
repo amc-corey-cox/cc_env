@@ -89,7 +89,7 @@ function get_venv_name() {
   local pyvenv_cfg="${venv_root}/pyvenv.cfg"
   
   if [[ -f "${pyvenv_cfg}" ]]; then
-    venv_name=$(awk -F= '/^name=/ {print $2}' "${pyvenv_cfg}")
+    venv_name=$(awk -F= '/^name[[:space:]]*=/ {print $2}' "${pyvenv_cfg}"
   fi
 
   if [[ -z "${venv_name}" && -f "${venv_root}/venv_name.txt" ]]; then

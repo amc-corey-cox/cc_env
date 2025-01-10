@@ -164,6 +164,12 @@ Other installation methods, such as pip, can be used but they tie the updates to
 ```
 curl -LsSf https://astral.sh/uv/install.sh | less
 ```
+### Rust
+The recommended way to install Rust is to use the script and pipe it to sh. It isn't ideal but I like it better than how the Ubuntu snap works and it should be the most up-to-date.
+```
+curl https://sh.rustup.rs -sSf | sh
+```
+This script adds a line to .bashrc and .profile to invoke the Rust ~/.cargo/env file to add ~/.cargo/bin to the path. Despite this just adding an entry to the path, I think it is probably best to go ahead and use this method. I have moved this invocation into the appropriate area in my `.bash.d/.bash_env`. During installation either customize the install to prevent adding the lines or remove them later.
 
 ### R
 I don't use R all that much at the moment but it continues to be a programming language I like to have on my system.
