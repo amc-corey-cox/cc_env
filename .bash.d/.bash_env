@@ -48,6 +48,6 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 # Add uv to manage Python publishing, package management, versions, and virtual environments.
-export PATH="$HOME/.uv/" # Add to PATH
+export PATH="$HOME/.uv/$PATH" # Add to PATH
 eval "$(~/.uv/uv generate-shell-completion bash)" # Code completion
 
