@@ -117,7 +117,10 @@ function parse_venv() {
       echo -e "-${active_name}-" # venv active but not in repo or parents
     fi
   elif [[ -n "${venv_name}" ]]; then
-    if [[ -n "$(parse_git_branch)" ]]; then
+    local venv_root="$(get_venv_root)"
+    local git_root="$(git rev-parse --show-toplevel 2>/dev/null)"
+    # Add ending / to git_root and check for match variable substitution removing the leading /
+    if [[ -n "$git_root" && "${venv_root#$git_root/}" == /* ]]; then
       echo -e "*$(get_venv_name)*" # venv is in repo but inactive
     else
       echo -e "+$(get_venv_name)+" # venv is in parents but inactive
