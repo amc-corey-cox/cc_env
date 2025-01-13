@@ -89,7 +89,7 @@ function get_venv_name() {
   local pyvenv_cfg="${venv_root}/pyvenv.cfg"
   
   if [[ -f "${pyvenv_cfg}" ]]; then
-    venv_name=$(awk -F= '/^name[[:space:]]*=/ {print $2}' "${pyvenv_cfg}"
+    venv_name=$(awk -F= '/^name[[:space:]]*=/ {print $2}' "${pyvenv_cfg}")
   fi
 
   if [[ -z "${venv_name}" && -f "${venv_root}/venv_name.txt" ]]; then
@@ -120,7 +120,7 @@ function parse_venv() {
     local venv_root="$(get_venv_root)"
     local git_root="$(git rev-parse --show-toplevel 2>/dev/null)"
     # Add ending / to git_root and check for match variable substitution removing the leading /
-    if [[ -n "$git_root" && "${venv_root#$git_root/}" == /* ]]; then
+    if [[ -n "$git_root" && "${venv_root#$git_root/}" != /* ]]; then
       echo -e "*$(get_venv_name)*" # venv is in repo but inactive
     else
       echo -e "+$(get_venv_name)+" # venv is in parents but inactive
