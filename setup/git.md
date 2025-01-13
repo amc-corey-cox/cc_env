@@ -20,7 +20,9 @@ Next we need to set up some local variables for basic Git setup.
 git config --global user.name "amc-corey-cox"
 git config --global user.email "69321580+amc-corey-cox@users.noreply.github.com"
 git config --global init.defaultBranch main
+git config --global fetch.prune true
 ```
+These set the username and email to my details and ensure the default branch is `main`. The `fetch.prune` setting makes it so `git fetch` will always prune branches on the remote that have been deleted.
 
 ## SSH and GPG keys
 Finally, we need to setup the ssh key to access our repositories.
