@@ -199,7 +199,7 @@ The Notebooks is the more familiar interface but the Labs appears to be more pow
 RStudio is the best IDE for running anything in R. It looks like there isn't currently support for Ubuntu 24.04 but it appears I should be able to install using the 2024.4.1 release for Ubuntu 22. Download the .deb and install it.
 ```
 wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-2024.04.1-748-amd64.deb
-sudo apt install rstudio-2024.04.1-748-amd64.deb
+sudo apt install ./rstudio-2024.04.1-748-amd64.deb
 sudo chmod 4755 /usr/lib/rstudio/chrome-sandbox
 ```
 After changing the mode of rstudio/chrom-sandbox (which I don't really understand), I was able to get Rstudio running.
