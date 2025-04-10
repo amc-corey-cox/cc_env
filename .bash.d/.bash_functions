@@ -20,11 +20,21 @@ function get_venv_root() {
 
 # Create an activate function to locate current repository venv and activate it.
 function activate() {
-  local venv_root="$(get_venv_root)"
-  if [[ "${venv_root}" == "" ]]; then
+  local base_venv_root="$(get_venv_root)"
+  if [[ "${base_venv_root}" == "" ]]; then
     echo -e "No virtual environment found, could not activate."
     return 1
   else
+    local venv_root="$base_venv_root"
+    if [[ ! -f "$base_venv_root/bin/activate" ]]; then
+      if [[ -f "$base_venv_root/uv-venv/bin/activate" ]]; then
+        venv_root="$base_venv_root/uv-venv"
+      else
+        echo -e "No activation script found in $base_venv_root"
+        return 1
+      fi
+    fi
+
     if [[ -n "$VIRTUAL_ENV" ]]; then
       if [[ "$VIRTUAL_ENV" == "${venv_root}" ]]; then
         echo -e "Virtual environment already active, run deactive"
