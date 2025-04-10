@@ -14,11 +14,11 @@
 # ~/.bashrc - User specific profile for Bash shells --- Ours sources this file
 
 # Setup PERL5 environment variables
-PATH="/home/corey/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/corey/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/corey/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/corey/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/corey/perl5"; export PERL_MM_OPT;
+export PATH="/home/corey/perl5/bin${PATH:+:${PATH}}"
+export PERL5LIB="/home/corey/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL_LOCAL_LIB_ROOT="/home/corey/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_MB_OPT="--install_base \"/home/corey/perl5\""
+export PERL_MM_OPT="INSTALL_BASE=/home/corey/perl5"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/corey/.local/google-cloud-sdk/path.bash.inc' ]; then . '/home/corey/.local/google-cloud-sdk/path.bash.inc'; fi
@@ -50,4 +50,10 @@ eval "$(pyenv init -)"
 # Add uv to manage Python publishing, package management, versions, and virtual environments.
 export PATH="$HOME/.uv:$PATH" # Add to PATH
 eval "$(~/.uv/uv generate-shell-completion bash)" # Code completion
+
+# Change uv venv directory to not clobber existing .venv
+export UV_VENV_DIR=.venv/uv-venv
+
+# Disable Python venv prompt changes
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
