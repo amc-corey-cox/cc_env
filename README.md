@@ -232,6 +232,13 @@ Docker requires some parts of KVM for installation. We'll add those here. I will
 The installation of Docker on Linux is fairly complex. Please see setup/docker.md for details on how to install.
 
 
+### Ollama
+Ollama is a simple install of just running the install script.
+```
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+
 # Other Software
 Other software that I generally like to have is all available without any issues from the App Center. They are:
  - Slack - latest/stable
