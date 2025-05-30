@@ -157,9 +157,9 @@ Previously, I used the automated installer script but now I think I'd like to tr
 Another strategy for Python is a universal tool to manage packages, python version, and virtual environments called uv. Because uv is written in rust and separate from the entire Python environment using system wide presents less risk of version compatibility issues.
 However, I'm cautious about using system-wide managers that can be specicific to different projects so I'll use `mise`, officially mise-en-place, to manage the `uv` on a per-project basis. This allows me to install and pin `uv` versions per-project, avoiding any project version-specific conflicts.  
 ```
-curl -LsSf https://mise.run | MISE_INSTALL_DIR="$HOME/.mise" INSTALLER_NO_MODIFY_PATH=1 bash
+curl -LsSf https://mise.run | bash
 ```
-This invocation of the installer disables the modification of the PATH variable, which I prefer to manage myself. We also need to make sure the path is updated in our .bashrc and add command completion to the .bashrc.
+This invocation of the installer adds `mise` to $HOME/.local/bin, which feels like a safe location and is already on the path. I have also updated in our .bashrc setup in .bash_env to activate `mise` and add command completion.
 As always, it's best to examine the script before installing, which can be done with.
 ```
 curl -LsSf https://mise.run | less

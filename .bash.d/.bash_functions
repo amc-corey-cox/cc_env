@@ -86,7 +86,7 @@ function activate_venv() {
 
 ### Other custom bash functions here ###
 
-# Use trash instead of rm to reduce accidental deletions
+# Use trash instead of rm to reduce accidental deletions, only if interactive shell
 if [[ $- == *i* ]]; then
   function rm() {
     echo "Use 'trash' instead of 'rm'."
@@ -101,10 +101,6 @@ fi
 # Activation function for mise and uv in nested shell
 function activate_mise_uv() {
   local mise_root=$(get_mise_root)
-
-  if [[ ":$PATH:" != *":$MISE_PATH:"* ]]; then
-    export PATH="$MISE_PATH:$PATH"
-  fi
 
   if [[ -n "$mise_root" ]]; then
     echo -e "Configuring tools via mise from $mise_root/ for mise.local.toml or mise.toml"

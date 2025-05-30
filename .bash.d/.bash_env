@@ -49,7 +49,9 @@ eval "$(pyenv init -)"
 
 # Set mise path for later activation
 # mise manages uv which deals with Python publishing, package management, versions, and virtual environments.
-export MISE_PATH="$HOME/.mise/"
+# mise is installed in ~/.local/bin/mise
+export MISE_PATH="$HOME/.local/bin/mise"
+eval "$(mise activate bash)"
 
 # Change uv venv directory to not clobber existing .venv
 export UV_VENV_DIR=.venv/uv-venv
