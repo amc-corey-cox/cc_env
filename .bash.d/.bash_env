@@ -52,6 +52,7 @@ eval "$(pyenv init -)"
 # mise is installed in ~/.local/bin/mise
 export MISE_PATH="$HOME/.local/bin/mise"
 eval "$(mise activate bash)"
+source <(mise completions bash)
 
 # Change uv venv directory to not clobber existing .venv
 export UV_VENV_DIR=.venv/uv-venv

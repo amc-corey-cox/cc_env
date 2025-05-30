@@ -40,15 +40,16 @@ function activate() {
   local mise_root=$(get_mise_root)
 
   if [[ -n "$mise_root" ]]; then
-    echo -e "Activating mise and uv from $mise_root"
-    REPO_ENV_ACTIVATING=1 bash
+    echo -e "Setting up uv in $mise_root"
+    uv sync || return $?
+    eval "$(uv generate-shell-completion bash)"
+  fi
+
+  local venv_root=$(get_venv_root)
+  if [[ -n "$venv_root" ]]; then
+    activate_venv
   else
-    local venv_root=$(get_venv_root)
-    if [[ -n "$venv_root" ]]; then
-      activate_venv
-    else
-      echo "No development environment found to activate."
-    fi
+    echo "No development environment found to activate."
   fi
 }
 
@@ -92,55 +93,5 @@ if [[ $- == *i* ]]; then
     echo "Use 'trash' instead of 'rm'."
     echo "To use 'rm', use '\rm' or 'command rm'."
     return 1
-  }
-fi
-
-
-### Mange nested shell for mise and uv activation ###
-
-# Activation function for mise and uv in nested shell
-function activate_mise_uv() {
-  local mise_root=$(get_mise_root)
-
-  if [[ -n "$mise_root" ]]; then
-    echo -e "Configuring tools via mise from $mise_root/ for mise.local.toml or mise.toml"
-    mise activate || return $?
-
-    echo -e "Setting up Python virtual environment via uv"
-    uv sync || return $?
-
-    # set up auto completions if in interactive shell
-    if [[ $- == *i* ]]; then
-      source <(mise completions bash)
-      eval "$(uv generate-shell-completion bash)"
-    fi
-  else
-    echo -e "No mise configuration found, skipping mise and uv activation."
-  fi
-}
-
-# In nested shell, activate mise and uv
-if [[ -n "$REPO_ENV_ACTIVATING" && $- == *i* ]]; then
-  unset REPO_ENV_ACTIVATING
-  if [[ -n "$REPO_ENV_ACTIVE" ]]; then
-    echo "Environment already active."
-    return
-  fi
-
-  export REPO_ENV_ACTIVE=1
-
-  #Print a message if the user exits manually
-  trap 'echo -e "Exiting mise and uv nested shell."' EXIT
-
-  # Activate mise and uv for environment management
-  activate_mise_uv || {
-    echo -e "Failed to activate mise and uv environment."
-    exit 1
-  }
-  echo -e "Nested shell for mise and uv activated. Use 'deactivate' to exit."
-
-  # Replace the deactivate function to close the nested shell
-  deactivate() {
-    exit 0
   }
 fi
