@@ -153,17 +153,19 @@ cd ~/.pyenv && src/configure && make -C src
 ```
 Previously, I used the automated installer script but now I think I'd like to try out using the basic git clone method for installation. Theoretically, it is safer this way and it also gives an opportunity to see how it all works...
 
-### Python and uv
-Another strategy for Python is a universal tool to manage packages, python version, and virtual environments called uv. Because uv is written in rust and separate from the entire Python environment using system wide presents less risk of version compatibility issues. The uv project recommends installation with curl.
+### Python, uv, and mise
+Another strategy for Python is a universal tool to manage packages, python version, and virtual environments called uv. Because uv is written in rust and separate from the entire Python environment using system wide presents less risk of version compatibility issues.
+However, I'm cautious about using system-wide managers that can be specicific to different projects so I'll use `mise`, officially mise-en-place, to manage the `uv` on a per-project basis. This allows me to install and pin `uv` versions per-project, avoiding any project version-specific conflicts.  
 ```
-curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="$HOME/.uv" INSTALLER_NO_MODIFY_PATH=1 sh
+curl -LsSf https://mise.run | bash
 ```
-This invocation of the installer disables the modification of the PATH variable, which I prefer to manage myself. We also need to make sure the path is added to our PATH variable in .bashrc. I have also added the command completion to the .bashrc.
+This invocation of the installer adds `mise` to $HOME/.local/bin, which feels like a safe location and is already on the path. I have also updated in our .bashrc setup in .bash_env to activate `mise` and add command completion.
+As always, it's best to examine the script before installing, which can be done with.
+```
+curl -LsSf https://mise.run | less
+```
+I initially planned to add some logic to my .bash_ps1 script to manage the mise/uv and .venv activation to indicate the repo was managed by mise and embed some short naming in the config there. However, I realized I can just use the same mechanism where I do renaming in .venv/pyvenv.config and uv doesn't seem to clobber it.
 
-Other installation methods, such as pip, can be used but they tie the updates to that version manager and disable self updating within uv. For this reason, I have elected to use the recommended script install. As always, it's best to examine the script before installing, which can be done with.
-```
-curl -LsSf https://astral.sh/uv/install.sh | less
-```
 ### Rust
 The recommended way to install Rust is to use the script and pipe it to sh. It isn't ideal but I like it better than how the Ubuntu snap works and it should be the most up-to-date.
 ```

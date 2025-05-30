@@ -47,9 +47,12 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-# Add uv to manage Python publishing, package management, versions, and virtual environments.
-export PATH="$HOME/.uv:$PATH" # Add to PATH
-eval "$(~/.uv/uv generate-shell-completion bash)" # Code completion
+# Set mise path for later activation
+# mise manages uv which deals with Python publishing, package management, versions, and virtual environments.
+# mise is installed in ~/.local/bin/mise
+export MISE_PATH="$HOME/.local/bin/mise"
+eval "$(mise activate bash)"
+source <(mise completions bash)
 
 # Change uv venv directory to not clobber existing .venv
 export UV_VENV_DIR=.venv/uv-venv
