@@ -42,7 +42,7 @@ function activate() {
 
   if [[ -n "$mise_root" ]]; then
     echo -e "Activating mise and uv from $mise_root"
-    REPO_ENV_ACTIVATING=1 bash --rcfile ~/.bashrc
+    REPO_ENV_ACTIVATING=1 bash
   else
     local venv_root=$(get_venv_root)
     if [[ -n "$venv_root" ]]; then
