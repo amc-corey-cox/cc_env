@@ -164,6 +164,8 @@ As always, it's best to examine the script before installing, which can be done 
 ```
 curl -LsSf https://mise.run | less
 ```
+I initially planned to add some logic to my .bash_ps1 script to manage the mise/uv and .venv activation to indicate the repo was managed by mise and embed some short naming in the config there. However, I realized I can just use the same mechanism where I do renaming in .venv/pyvenv.config and uv doesn't seem to clobber it.
+
 ### Rust
 The recommended way to install Rust is to use the script and pipe it to sh. It isn't ideal but I like it better than how the Ubuntu snap works and it should be the most up-to-date.
 ```
