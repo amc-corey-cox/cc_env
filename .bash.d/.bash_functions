@@ -1,4 +1,4 @@
-# !/bin/bash
+#!/bin/bash
 # Set up custom alliaces for bash profile
 # Source from .bashrc
 
@@ -32,8 +32,7 @@ function get_mise_root() {
 
 # Find the root of the venv virtual environment
 function get_venv_root() {
-  local venv_root=$(get_root ".venv")
-  echo -e "$venv_root/.venv"
+  echo -e "$(get_root ".venv")/.venv"
 }
 
 # Activate function to activate either mise and uv or venv if present.
@@ -88,11 +87,13 @@ function activate_venv() {
 ### Other custom bash functions here ###
 
 # Use trash instead of rm to reduce accidental deletions
-function rm() {
+if [[ $- == *i* ]]; then
+  function rm() {
     echo "Use 'trash' instead of 'rm'."
     echo "To use 'rm', use '\rm' or 'command rm'."
     return 1
-}
+  }
+fi
 
 
 ### Mange nested shell for mise and uv activation ###
@@ -123,7 +124,7 @@ function activate_mise_uv() {
 }
 
 # In nested shell, activate mise and uv
-if [[ -n "$REPO_ENV_ACTIVATING" ]]; then
+if [[ -n "$REPO_ENV_ACTIVATING" && $- == *i* ]]; then
   unset REPO_ENV_ACTIVATING
   if [[ -n "$REPO_ENV_ACTIVE" ]]; then
     echo "Environment already active."
