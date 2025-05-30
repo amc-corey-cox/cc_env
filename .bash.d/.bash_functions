@@ -30,9 +30,16 @@ function get_mise_root() {
   echo "$mise_root"
 }
 
-# Find the root of the venv virtual environment
+# Find the root of the vevn virtual environment
 function get_venv_root() {
-  echo -e "$(get_root ".venv")/.venv"
+  local dir="$PWD"
+  while [ "$dir" != "/" ]; do
+    if [ -d "$dir/.venv" ]; then
+      echo -e "$dir/.venv"
+      return
+    fi
+    dir=$(dirname "$dir")
+  done
 }
 
 # Activate function to activate either mise and uv or venv if present.
