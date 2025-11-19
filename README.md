@@ -238,6 +238,14 @@ Ollama is a simple install of just running the install script.
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
+### Claude Code
+Claude Code is Anthropic's CLI coding assistant that uses a native binary installer.
+
+curl -fsSL https://claude.ai/install.sh | bash
+
+This installs the `claude` binary to `~/.local/bin/` and configuration to `~/.claude/`. The installation is straightforward and doesn't require any additional PATH modifications since `~/.local/bin` is already on the path. Auto-updates are enabled by default.
+
+The first invocation of `claude` will ask for authentication and store those setting securely.
 
 # Other Software
 Other software that I generally like to have is all available without any issues from the App Center. They are:
