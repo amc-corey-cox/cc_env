@@ -257,6 +257,63 @@ sudo GOOSE_BIN_DIR=/usr/local/bin CONFIGURE=false bash -c \
 
 Configuration is stored in `~/.config/goose/config.yaml`. For Ollama integration, run `goose configure` and select Ollama as the provider with your endpoint (e.g., `http://localhost:11434`).
 
+### pipx (System-wide Python CLI Tools)
+pipx installs Python CLI tools in isolated environments while making them available system-wide. This avoids polluting system Python or pyenv environments with tool dependencies.
+
+**Installation** (uses pyenv-managed Python, installs to `/usr/local/bin`):
+```
+# Create pipx's isolated venv
+sudo mkdir -p /opt/pipx-bootstrap
+sudo chown $USER /opt/pipx-bootstrap
+
+# Set up with pyenv Python
+cd /opt/pipx-bootstrap
+pyenv local 3.12  # or your preferred version
+python -m venv venv
+venv/bin/pip install pipx
+
+# Hand ownership to root and symlink
+sudo chown -R root:root /opt/pipx-bootstrap
+sudo ln -s /opt/pipx-bootstrap/venv/bin/pipx /usr/local/bin/pipx
+
+# Create directory for pipx-managed tools
+sudo mkdir -p /opt/pipx
+```
+
+**Installing tools with pipx:**
+```
+sudo PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install <tool>
+```
+
+**Layout:**
+- `/opt/pipx-bootstrap/venv/` — pipx's own isolated venv
+- `/opt/pipx/venvs/` — venvs for each installed tool
+- `/usr/local/bin/` — symlinks to tool executables
+
+**Upgrading tools:**
+```
+sudo PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx upgrade <tool>
+```
+
+### Aider
+Aider is an AI pair programming tool that works well with local Ollama models. Unlike tools that rely on function calling, Aider uses diff-based editing which works reliably with local LLMs.
+
+**Installation** (via pipx):
+```
+sudo PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install aider-chat
+```
+
+**Usage with Ollama:**
+```
+# Use a specific model
+aider --model ollama/qwen2.5-coder:7b-instruct-q4_K_M
+
+# List available Ollama models
+aider --list-models ollama
+```
+
+Configuration can be stored in `.aider.conf.yml` in your project or home directory.
+
 # Other Software
 Other software that I generally like to have is all available without any issues from the App Center. They are:
  - Slack - latest/stable
