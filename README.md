@@ -268,7 +268,7 @@ sudo chown $USER /opt/pipx-bootstrap
 
 # Set up with pyenv Python
 cd /opt/pipx-bootstrap
-pyenv local 3.12  # or your preferred version
+pyenv local 3.12  # Python 3.9+ required for pipx/aider
 python -m venv venv
 venv/bin/pip install pipx
 
