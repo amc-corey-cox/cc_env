@@ -1,0 +1,36 @@
+#!/bin/bash
+# PATH and environment variable setup for ALL shells (interactive and non-interactive)
+# Sourced from .bashrc before the non-interactive guard
+# Interactive-only setup (completions, shell hooks) is in .bash_env
+
+# Prevent double-sourcing (the .bash.d loop may pick this up again)
+[[ -n "$_BASH_PATHS_SOURCED" ]] && return
+_BASH_PATHS_SOURCED=1
+
+# Setup PERL5 environment variables
+export PATH="/home/corey/perl5/bin${PATH:+:${PATH}}"
+export PERL5LIB="/home/corey/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL_LOCAL_LIB_ROOT="/home/corey/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_MB_OPT="--install_base \"/home/corey/perl5\""
+export PERL_MM_OPT="INSTALL_BASE=/home/corey/perl5"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/corey/.local/google-cloud-sdk/path.bash.inc' ]; then . '/home/corey/.local/google-cloud-sdk/path.bash.inc'; fi
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# pyenv - add shims to PATH for all shells
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+
+# mise - use shims for PATH access in all shells
+export MISE_PATH="$HOME/.local/bin/mise"
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+
+# Change uv venv directory to not clobber existing .venv
+export UV_VENV_DIR=.venv/uv-venv
+
+# Disable Python venv prompt changes
+export VIRTUAL_ENV_DISABLE_PROMPT=1

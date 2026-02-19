@@ -1,27 +1,7 @@
 #!/bin/bash
-# Set up custom paths for bash profile
-# Source from .bashrc
-
-# The PATH is set in these other files in the system in approximately this order
-# 
-# /etc/environment - System-wide environment variables for all shells
-# /etc/xprofile - System-wide profile for X window sessions for all shells
-# /etc/profile - System-wide profile for all shells
-# /etc/bash.bashrc - System-wide rc file for Bash shells
-# ~/.pam_environment - User specific environment loaded by PAM on user sessions
-# ~/.xprofile - User specific profile for X window sessions for all shells
-# ~/profile - User specific profile for all shells --- Most PATH changes should go here
-# ~/.bashrc - User specific profile for Bash shells --- Ours sources this file
-
-# Setup PERL5 environment variables
-export PATH="/home/corey/perl5/bin${PATH:+:${PATH}}"
-export PERL5LIB="/home/corey/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
-export PERL_LOCAL_LIB_ROOT="/home/corey/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
-export PERL_MB_OPT="--install_base \"/home/corey/perl5\""
-export PERL_MM_OPT="INSTALL_BASE=/home/corey/perl5"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/corey/.local/google-cloud-sdk/path.bash.inc' ]; then . '/home/corey/.local/google-cloud-sdk/path.bash.inc'; fi
+# Interactive shell setup: completions, shell hooks, and tool activation
+# Sourced from .bashrc after the non-interactive guard
+# PATH and environment setup is in .bash_paths (sourced for all shells)
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/corey/.local/google-cloud-sdk/completion.bash.inc' ]; then . '/home/corey/.local/google-cloud-sdk/completion.bash.inc'; fi
@@ -37,26 +17,12 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Use nvm to manage node versions
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# nvm bash completion
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# Use pyenv to manage Python versions
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+# pyenv interactive shell integration
 eval "$(pyenv init -)"
 
-# Set mise path for later activation
-# mise manages uv which deals with Python publishing, package management, versions, and virtual environments.
-# mise is installed in ~/.local/bin/mise
-export MISE_PATH="$HOME/.local/bin/mise"
+# mise interactive shell hooks and completions
 eval "$(mise activate bash)"
 source <(mise completions bash)
-
-# Change uv venv directory to not clobber existing .venv
-export UV_VENV_DIR=.venv/uv-venv
-
-# Disable Python venv prompt changes
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-
