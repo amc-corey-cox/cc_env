@@ -2,6 +2,13 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# Source PATH/environment setup for ALL shells (interactive and non-interactive)
+# This ensures tools like mise, pyenv, nvm are available in non-interactive
+# shells (e.g. Claude Code, scripts, CI)
+if [[ -r "$HOME/.bash.d/.bash_paths" ]]; then
+  . "$HOME/.bash.d/.bash_paths"
+fi
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
