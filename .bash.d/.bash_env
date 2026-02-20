@@ -4,7 +4,7 @@
 # PATH and environment setup is in .bash_paths (sourced for all shells)
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/corey/.local/google-cloud-sdk/completion.bash.inc' ]; then . '/home/corey/.local/google-cloud-sdk/completion.bash.inc'; fi
+if [ -f "$HOME/.local/google-cloud-sdk/completion.bash.inc" ]; then . "$HOME/.local/google-cloud-sdk/completion.bash.inc"; fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -17,7 +17,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# nvm bash completion
+# nvm - full initialization and bash completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # pyenv interactive shell integration

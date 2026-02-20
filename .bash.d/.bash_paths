@@ -1,33 +1,46 @@
-#!/bin/bash
 # PATH and environment variable setup for ALL shells (interactive and non-interactive)
 # Sourced from .bashrc before the non-interactive guard
 # Interactive-only setup (completions, shell hooks) is in .bash_env
 
 # Prevent double-sourcing (the .bash.d loop may pick this up again)
-[[ -n "$_BASH_PATHS_SOURCED" ]] && return
+if [[ -n "$_BASH_PATHS_SOURCED" ]]; then
+    return 0 2>/dev/null || exit 0
+fi
 _BASH_PATHS_SOURCED=1
 
 # Setup PERL5 environment variables
-export PATH="/home/corey/perl5/bin${PATH:+:${PATH}}"
-export PERL5LIB="/home/corey/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
-export PERL_LOCAL_LIB_ROOT="/home/corey/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
-export PERL_MB_OPT="--install_base \"/home/corey/perl5\""
-export PERL_MM_OPT="INSTALL_BASE=/home/corey/perl5"
+if [ -d "$HOME/perl5" ]; then
+    export PATH="$HOME/perl5/bin${PATH:+:${PATH}}"
+    export PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+    export PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+    export PERL_MB_OPT="--install_base \"$HOME/perl5\""
+    export PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"
+fi
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/corey/.local/google-cloud-sdk/path.bash.inc' ]; then . '/home/corey/.local/google-cloud-sdk/path.bash.inc'; fi
+if [ -f "$HOME/.local/google-cloud-sdk/path.bash.inc" ]; then . "$HOME/.local/google-cloud-sdk/path.bash.inc"; fi
 
-# nvm
+# nvm - add default node to PATH without full nvm initialization (nvm.sh is slow)
+# Full nvm function is loaded in .bash_env for interactive shells
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+if [ -s "$NVM_DIR/alias/default" ]; then
+    _nvm_ver=$(< "$NVM_DIR/alias/default")
+    _nvm_path=$(ls -d "$NVM_DIR/versions/node/v${_nvm_ver}"* 2>/dev/null | sort -V | tail -1)
+    [ -n "$_nvm_path" ] && export PATH="$_nvm_path/bin:$PATH"
+    unset _nvm_ver _nvm_path
+fi
 
 # pyenv - add shims to PATH for all shells
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
 
-# mise - use shims for PATH access in all shells
+# mise - ensure binary and shims are on PATH for all shells
 export MISE_PATH="$HOME/.local/bin/mise"
-export PATH="$HOME/.local/share/mise/shims:$PATH"
+if [ -x "$MISE_PATH" ]; then
+    export PATH="$(dirname "$MISE_PATH"):$HOME/.local/share/mise/shims:$PATH"
+else
+    export PATH="$HOME/.local/share/mise/shims:$PATH"
+fi
 
 # Change uv venv directory to not clobber existing .venv
 export UV_VENV_DIR=.venv/uv-venv
