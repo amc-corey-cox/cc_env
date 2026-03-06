@@ -1,11 +1,12 @@
 #!/bin/bash
-# Environment setup for AI coding assistants (Claude Code, etc.)
-# Sourced from .bashrc before the non-interactive guard
-# Has its own guard so the .bash.d/ loop won't double-activate
+# Non-interactive shell initialization (sourced via BASH_ENV)
+# Ensures PATH, tool shims, and project venvs are available in
+# non-interactive shells (e.g. Claude Code, scripts, CI)
 
-[[ -z "$CLAUDECODE" ]] && { return 0 2>/dev/null || exit 0; }
-[[ -n "$_BASH_AI_SOURCED" ]] && { return 0 2>/dev/null || exit 0; }
-_BASH_AI_SOURCED=1
+# PATH and tool setup (mise, pyenv, nvm, etc.)
+if [[ -r "$HOME/.bash.d/.bash_paths" ]]; then
+    . "$HOME/.bash.d/.bash_paths"
+fi
 
 # Auto-activate project venv based on working directory
 # Each command gets a fresh shell, so this re-evaluates every time

@@ -26,4 +26,7 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+# BASH_ENV for non-interactive shell init (PATH, venv activation)
+export BASH_ENV="$HOME/.bash_init"
+
 export PATH="$HOME/.poetry/bin:$PATH"
