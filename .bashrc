@@ -9,6 +9,11 @@ if [[ -r "$HOME/.bash.d/.bash_paths" ]]; then
   . "$HOME/.bash.d/.bash_paths"
 fi
 
+# AI assistant environment (venv auto-activation, etc.)
+if [[ -r "$HOME/.bash.d/.bash_ai" ]]; then
+  . "$HOME/.bash.d/.bash_ai"
+fi
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
