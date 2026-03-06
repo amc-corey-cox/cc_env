@@ -2,16 +2,16 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-# Source PATH/environment setup for ALL shells (interactive and non-interactive)
-# This ensures tools like mise, pyenv, nvm are available in non-interactive
-# shells (e.g. Claude Code, scripts, CI)
+# Source PATH/environment setup early for interactive shells
+# Non-interactive shells get this via BASH_ENV -> .bash_init
 if [[ -r "$HOME/.bash.d/.bash_paths" ]]; then
   . "$HOME/.bash.d/.bash_paths"
 fi
 
-# AI assistant environment (venv auto-activation, etc.)
-if [[ -r "$HOME/.bash.d/.bash_ai" ]]; then
-  . "$HOME/.bash.d/.bash_ai"
+# Set BASH_ENV so non-interactive shells (Claude Code, scripts, CI)
+# get PATH setup and project venv activation
+if [[ -z "${BASH_ENV:-}" && -r "$HOME/.bash_init" ]]; then
+  export BASH_ENV="$HOME/.bash_init"
 fi
 
 # If not running interactively, don't do anything
