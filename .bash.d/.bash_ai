@@ -1,0 +1,25 @@
+#!/bin/bash
+# Environment setup for AI coding assistants (Claude Code, etc.)
+# Sourced from .bashrc before the non-interactive guard
+# Has its own guard so the .bash.d/ loop won't double-activate
+
+[[ -z "$CLAUDECODE" ]] && return 0
+[[ -n "$_BASH_AI_SOURCED" ]] && return 0
+_BASH_AI_SOURCED=1
+
+# Auto-activate project venv based on working directory
+# Each command gets a fresh shell, so this re-evaluates every time
+_dir="$PWD"
+while [[ "$_dir" != "/" ]]; do
+    if [[ -d "$_dir/.venv/uv-venv/bin" ]]; then
+        export VIRTUAL_ENV="$_dir/.venv/uv-venv"
+        export PATH="$VIRTUAL_ENV/bin:$PATH"
+        break
+    elif [[ -d "$_dir/.venv/bin" ]]; then
+        export VIRTUAL_ENV="$_dir/.venv"
+        export PATH="$VIRTUAL_ENV/bin:$PATH"
+        break
+    fi
+    _dir=$(dirname "$_dir")
+done
+unset _dir
