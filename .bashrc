@@ -10,7 +10,9 @@ fi
 
 # Set BASH_ENV so non-interactive shells (Claude Code, scripts, CI)
 # get PATH setup and project venv activation
-export BASH_ENV="$HOME/.bash_init"
+if [[ -z "${BASH_ENV:-}" && -r "$HOME/.bash_init" ]]; then
+  export BASH_ENV="$HOME/.bash_init"
+fi
 
 # If not running interactively, don't do anything
 case $- in
