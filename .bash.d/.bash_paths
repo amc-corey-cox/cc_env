@@ -2,15 +2,16 @@
 # Sourced from .bashrc before the non-interactive guard
 # Interactive-only setup (completions, shell hooks) is in .bash_env
 
-# Prevent double-sourcing (the .bash.d loop may pick this up again)
-if [[ -n "$_BASH_PATHS_SOURCED" ]]; then
-    return 0 2>/dev/null || exit 0
-fi
-_BASH_PATHS_SOURCED=1
+# Prepend to PATH only if not already present
+_prepend_path() {
+    if [[ ":$PATH:" != *":$1:"* ]]; then
+        export PATH="$1:$PATH"
+    fi
+}
 
 # Setup PERL5 environment variables
 if [ -d "$HOME/perl5" ]; then
-    export PATH="$HOME/perl5/bin${PATH:+:${PATH}}"
+    _prepend_path "$HOME/perl5/bin"
     export PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
     export PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
     export PERL_MB_OPT="--install_base \"$HOME/perl5\""
@@ -26,20 +27,22 @@ export NVM_DIR="$HOME/.nvm"
 if [ -s "$NVM_DIR/alias/default" ]; then
     _nvm_ver=$(< "$NVM_DIR/alias/default")
     _nvm_path=$(ls -d "$NVM_DIR/versions/node/v${_nvm_ver}"* 2>/dev/null | sort -V | tail -1)
-    [ -n "$_nvm_path" ] && export PATH="$_nvm_path/bin:$PATH"
+    if [ -n "$_nvm_path" ]; then
+        _prepend_path "$_nvm_path/bin"
+    fi
     unset _nvm_ver _nvm_path
 fi
 
 # pyenv - add shims to PATH for all shells
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+_prepend_path "$PYENV_ROOT/shims"
+_prepend_path "$PYENV_ROOT/bin"
 
 # mise - ensure binary and shims are on PATH for all shells
 export MISE_PATH="$HOME/.local/bin/mise"
+_prepend_path "$HOME/.local/share/mise/shims"
 if [ -x "$MISE_PATH" ]; then
-    export PATH="$(dirname "$MISE_PATH"):$HOME/.local/share/mise/shims:$PATH"
-else
-    export PATH="$HOME/.local/share/mise/shims:$PATH"
+    _prepend_path "$(dirname "$MISE_PATH")"
 fi
 
 # Change uv venv directory to not clobber existing .venv

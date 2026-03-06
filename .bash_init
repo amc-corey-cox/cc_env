@@ -14,11 +14,11 @@ _dir="$PWD"
 while [[ "$_dir" != "/" ]]; do
     if [[ -d "$_dir/.venv/uv-venv/bin" ]]; then
         export VIRTUAL_ENV="$_dir/.venv/uv-venv"
-        export PATH="$VIRTUAL_ENV/bin:$PATH"
+        _prepend_path "$VIRTUAL_ENV/bin"
         break
     elif [[ -d "$_dir/.venv/bin" ]]; then
         export VIRTUAL_ENV="$_dir/.venv"
-        export PATH="$VIRTUAL_ENV/bin:$PATH"
+        _prepend_path "$VIRTUAL_ENV/bin"
         break
     fi
     _dir=$(dirname "$_dir")
