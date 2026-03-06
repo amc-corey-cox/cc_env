@@ -3,8 +3,8 @@
 # Sourced from .bashrc before the non-interactive guard
 # Has its own guard so the .bash.d/ loop won't double-activate
 
-[[ -z "$CLAUDECODE" ]] && return 0
-[[ -n "$_BASH_AI_SOURCED" ]] && return 0
+[[ -z "$CLAUDECODE" ]] && { return 0 2>/dev/null || exit 0; }
+[[ -n "$_BASH_AI_SOURCED" ]] && { return 0 2>/dev/null || exit 0; }
 _BASH_AI_SOURCED=1
 
 # Auto-activate project venv based on working directory
