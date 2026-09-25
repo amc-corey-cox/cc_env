@@ -21,6 +21,29 @@ fi
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+# nvm - switch to the nearest .nvmrc version on directory change, back to default outside
+# Only affects the current shell; never changes the nvm default alias
+_nvm_auto_use() {
+    [[ "$PWD" == "${_nvm_last_pwd:-}" ]] && return
+    _nvm_last_pwd="$PWD"
+    local nvmrc want
+    nvmrc="$(nvm_find_nvmrc)"
+    if [[ -n "$nvmrc" ]]; then
+        want="$(nvm version "$(< "$nvmrc")")"
+        if [[ "$want" == "N/A" ]]; then
+            echo "nvm: Node $(< "$nvmrc") from $nvmrc is not installed (run: nvm install)" >&2
+            return
+        fi
+    else
+        want="$(nvm version default)"
+        [[ "$want" == "N/A" ]] && return
+    fi
+    [[ "$want" == "$(nvm current)" ]] || nvm use --silent "$want"
+}
+if command -v nvm_find_nvmrc >/dev/null; then
+    PROMPT_COMMAND="_nvm_auto_use${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
+fi
+
 # pyenv interactive shell integration
 eval "$(pyenv init -)"
 

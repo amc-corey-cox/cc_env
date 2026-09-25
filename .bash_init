@@ -24,3 +24,19 @@ while [[ "$_dir" != "/" ]]; do
     _dir=$(dirname "$_dir")
 done
 unset _dir
+
+# Use the nearest .nvmrc Node version (without loading nvm.sh, which is slow)
+# Resolves numeric versions only (e.g. 22, v22.1); aliases like lts/* are skipped
+_dir="$PWD"
+while [[ "$_dir" != "/" ]]; do
+    if [[ -r "$_dir/.nvmrc" ]]; then
+        _nvm_ver=$(< "$_dir/.nvmrc")
+        _nvm_path=$(ls -d "$NVM_DIR/versions/node/v${_nvm_ver#v}"* 2>/dev/null | sort -V | tail -1)
+        if [[ -n "$_nvm_path" ]]; then
+            _prepend_path "$_nvm_path/bin"
+        fi
+        break
+    fi
+    _dir=$(dirname "$_dir")
+done
+unset _dir _nvm_ver _nvm_path
