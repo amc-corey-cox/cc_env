@@ -38,7 +38,10 @@ _nvm_auto_use() {
         fi
     else
         want="$(nvm version default)"
-        [[ "$want" == "N/A" ]] && return
+        if [[ "$want" == "N/A" ]]; then
+            nvm deactivate --silent >/dev/null
+            return
+        fi
     fi
     [[ "$want" == "$(nvm current)" ]] || nvm use --silent "$want"
 }
