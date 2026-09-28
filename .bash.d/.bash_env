@@ -26,12 +26,13 @@ fi
 _nvm_auto_use() {
     [[ "$PWD" == "${_nvm_last_pwd:-}" ]] && return
     _nvm_last_pwd="$PWD"
-    local nvmrc want
+    local nvmrc want spec
     nvmrc="$(nvm_find_nvmrc)"
     if [[ -n "$nvmrc" ]]; then
-        want="$(nvm version "$(< "$nvmrc")")"
+        spec="$(< "$nvmrc")"
+        want="$(nvm version "$spec")"
         if [[ "$want" == "N/A" ]]; then
-            echo "nvm: Node $(< "$nvmrc") from $nvmrc is not installed (run: nvm install)" >&2
+            echo "nvm: Node $spec from $nvmrc is not installed (run: nvm install)" >&2
             return
         fi
     else
