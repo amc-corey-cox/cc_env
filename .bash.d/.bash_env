@@ -30,6 +30,7 @@ _nvm_auto_use() {
     nvmrc="$(nvm_find_nvmrc)"
     if [[ -n "$nvmrc" ]]; then
         spec="$(< "$nvmrc")"
+        spec="${spec//[$'\r\t ']/}"
         want="$(nvm version "$spec")"
         if [[ "$want" == "N/A" ]]; then
             echo "nvm: Node $spec from $nvmrc is not installed (run: nvm install)" >&2

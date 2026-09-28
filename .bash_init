@@ -31,6 +31,7 @@ _dir="$PWD"
 while [[ "$_dir" != "/" ]]; do
     if [[ -r "$_dir/.nvmrc" ]]; then
         _nvm_ver=$(< "$_dir/.nvmrc")
+        _nvm_ver=${_nvm_ver//[$'\r\t ']/}
         _nvm_ver=${_nvm_ver#v}
         if [[ "$_nvm_ver" =~ ^[0-9]+(\.[0-9]+){0,2}$ ]]; then
             _nvm_path=$(ls -d "$NVM_DIR/versions/node/v$_nvm_ver" "$NVM_DIR/versions/node/v$_nvm_ver".* 2>/dev/null | sort -V | tail -1)
