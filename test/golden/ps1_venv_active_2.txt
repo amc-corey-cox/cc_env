@@ -1,0 +1,1 @@
+^A^[]0;USER@HOST: ~/code/beta-proj/src^G^B ^A^[[01;32m^BM-bM-^\M-^T ^A^[[01;32m^B(beta-env) ^A^[[00m^B^A^[[01;34m^BUSER@HOST^A^[[00m^B:^A^[[00;37m^B~/code/beta-proj/src^A^[[00m^B ^A^[[0;32m^B(fix-b)^A^[[00m^B $ 

@@ -1,0 +1,1 @@
+^A^[]0;USER@HOST: ~/beta-dir^G^B ^A^[[01;31m^BM-bM-^\M-^X ^A^[[01;34m^BUSER@HOST^A^[[00m^B:^A^[[00;37m^B~/beta-dir^A^[[00m^B $ 

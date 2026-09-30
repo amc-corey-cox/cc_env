@@ -1,0 +1,1 @@
+^A^[]0;USER@HOST: ~/alpha-proj^G^B ^A^[[01;32m^BM-bM-^\M-^T ^A^[[01;31m^B!!uv-venv M-bM-^IM-  alpha!! ^A^[[00m^B^A^[[01;34m^BUSER@HOST^A^[[00m^B:^A^[[00;37m^B~/alpha-proj^A^[[00m^B ^A^[[0;32m^B(feat-a)^A^[[00m^B $ 
