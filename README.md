@@ -3,10 +3,7 @@ I initially started this repository to capture simple environment scripts and se
 
 The initial use-case for was setting up my bash prompt with a smart attractive and easily configurable prompt and to manage my PATH variable more intelligently. While that is still a core feature, I've learned there are many more pieces to setting up my development environent. Other key components are installing core apps and libraries along with their configuration. I also use specialized environments for both python and typescript/javascript which are helpful to manage right away.
 
-This README.md will cover most of the basic initial setup and reference different .md files in the install-software directory for installation of other tools.
-
-# Dual Boot
-For installation with Windows 11 dual boot with option to run in a VM under Ubuntu, see windows11.md.
+This README.md covers most of the basic initial setup and references .md files in the setup directory for installation of other tools.
 
 # Installing Ubuntu
 I didn't manage to catch all the details of the install this time but the Ubuntu install is really straightforward. This time I used the defult selection rather than adding the office tools and utilities. I'll need to evaluate whether I think this was the right choice.
@@ -16,7 +13,6 @@ The only specific detail that I think is important is to make sure to encrypt th
 ## Drive Encryption
 On my work system I am using whole drive encription. It is a simple option when running through the disk setup.
 To access disk encryption you need to select advance features. I'm currenlty going with LVM and encryption because I'm not especially familiar with the other option, using ZFS. I believe a new option will be available in upcoming version of Ubuntu and it will be worth evaluating at that time.
-For my home system, I'm planning to do some things with Windows 11 so I have a more complicated installation. I will document these in install/Windows11pro.md.
 
 Note: In the past, Ubuntu generated recovery keys that could be used to access the drive if the password was lost. This is no longer the case, so make sure to use a password you can remembet. I also recommend keeping it in a password manager.
 
@@ -263,50 +259,21 @@ sudo GOOSE_BIN_DIR=/usr/local/bin CONFIGURE=false bash -c \
 
 Configuration is stored in `~/.config/goose/config.yaml`. For Ollama integration, run `goose configure` and select Ollama as the provider with your endpoint (e.g., `http://localhost:11434`).
 
-### pipx (System-wide Python CLI Tools)
-pipx installs Python CLI tools in isolated environments while making them available system-wide. This avoids polluting system Python or pyenv environments with tool dependencies.
+### uv tools (Python CLI Tools)
+`uv tool install` puts each Python CLI tool in its own isolated environment and links its executables into `~/.local/bin`. This keeps tool dependencies out of system Python and pyenv environments.
 
-**Installation** (uses pyenv-managed Python, installs to `/usr/local/bin`):
 ```
-# Create pipx's isolated venv
-sudo mkdir -p /opt/pipx-bootstrap
-sudo chown $USER /opt/pipx-bootstrap
-
-# Set up with pyenv Python
-cd /opt/pipx-bootstrap
-pyenv local 3.12  # Python 3.9+ required for pipx/aider
-python -m venv venv
-venv/bin/pip install pipx
-
-# Hand ownership to root and symlink
-sudo chown -R root:root /opt/pipx-bootstrap
-sudo ln -s /opt/pipx-bootstrap/venv/bin/pipx /usr/local/bin/pipx
-
-# Create directory for pipx-managed tools
-sudo mkdir -p /opt/pipx
-```
-
-**Installing tools with pipx:**
-```
-sudo PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install <tool>
-```
-
-**Layout:**
-- `/opt/pipx-bootstrap/venv/` — pipx's own isolated venv
-- `/opt/pipx/venvs/` — venvs for each installed tool
-- `/usr/local/bin/` — symlinks to tool executables
-
-**Upgrading tools:**
-```
-sudo PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx upgrade <tool>
+uv tool install <tool>
+uv tool upgrade <tool>      # or: uv tool upgrade --all
+uv tool list
 ```
 
 ### Aider
 Aider is an AI pair programming tool that works well with local Ollama models. Unlike tools that rely on function calling, Aider uses diff-based editing which works reliably with local LLMs.
 
-**Installation** (via pipx):
+**Installation** (via uv):
 ```
-sudo PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install aider-chat
+uv tool install aider-chat
 ```
 
 **Usage with Ollama:**
@@ -343,17 +310,8 @@ cp icons/* ~/.local/share/icons
 ```
 
 ## Scripts
-I used to have some trouble with bluetooth dropping my devices and these scripts fixed it. This is no longer needed but I'm not ready to get rid of the scripts just yet.
-Skip for now... Copy sbin scripts to /usr/local/sbin
+These scripts and their `restart_bluetooth`/`restart_network` .desktop launchers are dormant. Bluetooth dropping my devices has come back a few times, and restarting the service fixed it. They aren't installed now; if the drops return, copy the sbin scripts to /usr/local/sbin:
 ```
 sudo chown root -R scripts/sbin
 sudo cp scripts/sbin/* /usr/local/sbin
 ```
-
-## Symlinks
-I used to create a symlink from `python` to `python3` because it was annoying to have to type `python3`. Since I manage `python` through pyenv this no longer matters most of the time. I'm keeping this here as a reminder.
-create symlink for python to python3
-```
-sudo ln -s /usr/bin/python3 /usr/bin/python
-```
-I think instead of using a symlink it would probably be better to create a simple bash function because this would only be during interactive sessions and would guarantee scripts don't attempt to use the wrong python.
