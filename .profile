@@ -30,5 +30,3 @@ fi
 if [ -z "${BASH_ENV:-}" ] && [ -r "$HOME/.bash_init" ]; then
     export BASH_ENV="$HOME/.bash_init"
 fi
-
-export PATH="$HOME/.poetry/bin:$PATH"

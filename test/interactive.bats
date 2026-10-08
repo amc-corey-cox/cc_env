@@ -95,16 +95,16 @@ _login_shell() {
   cd "$1" && env -i HOME="$SANDBOX_HOME" PATH="$BASE_PATH" bash -l -c 'echo "$PATH"; echo "$BASH_ENV"; echo "VE=${VIRTUAL_ENV:-}"'
 }
 
-@test "login shell: .profile puts poetry and ~/.local/bin ahead of everything" {
+@test "login shell: .profile puts ~/.local/bin ahead of everything" {
   mkdir -p "$H/.local/bin"
   run _login_shell "$H"
-  [[ "${lines[0]}" == "$H/.poetry/bin:$H/.local/bin:$TOOLS_PATH:$BASE_PATH"* ]]
+  [[ "${lines[0]}" == "$H/.local/bin:$TOOLS_PATH:$BASE_PATH"* ]]
   [ "${lines[1]}" = "$H/.bash_init" ]
 }
 
 @test "non-interactive login shell also runs .bash_init via the BASH_ENV .profile exports" {
   make_venv "$H/proj/.venv" proj-venv
   run _login_shell "$H/proj"
-  [[ "${lines[0]}" == "$H/proj/.venv/bin:$H/.poetry/bin:"* ]]
+  [[ "${lines[0]}" == "$H/proj/.venv/bin:$TOOLS_PATH:"* ]]
   [ "${lines[2]}" = "VE=$H/proj/.venv" ]
 }
