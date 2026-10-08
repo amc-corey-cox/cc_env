@@ -14,6 +14,12 @@ setup() {
   [ "$output" = "$TOOLS_PATH:$BASE_PATH" ]
 }
 
+@test ".bash_paths is sourced once per interactive shell" {
+  echo 'echo sourced >> "$HOME/paths.log"' >> "$H/.bash.d/.bash_paths"
+  CMD='cat "$HOME/paths.log"' run_interactive "$H"
+  [ "$output" = "sourced" ]
+}
+
 @test "venv is not auto-activated in interactive shells" {
   make_venv "$H/proj/.venv" proj-venv
   CMD='echo "VE=${VIRTUAL_ENV:-}"; python' run_interactive "$H/proj"

@@ -46,9 +46,10 @@ shopt -s checkwinsize
 BASHD="$HOME/.bash.d"
 
 # import all files from .bash.d
-# includes alliaces, path, and ps1
+# includes aliases, functions, and ps1; .bash_paths was already sourced above
 if [[ -d "${BASHD}" ]]; then
   for f in "$BASHD"/.bash_*; do
+    [[ "$f" == "$BASHD/.bash_paths" ]] && continue
     if [[ -r $f ]]; then
       . $f
     fi
