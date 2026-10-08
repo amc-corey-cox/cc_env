@@ -29,7 +29,7 @@ setup_sandbox() {
   mkdir -p "$SANDBOX_HOME/.bash.d"
   cp "$REPO_ROOT/.bashrc" "$REPO_ROOT/.bash_init" "$REPO_ROOT/.profile" "$SANDBOX_HOME/"
   cp "$REPO_ROOT"/.bash.d/.bash_* "$SANDBOX_HOME/.bash.d/"
-  # .bashrc hardcodes BASHD=/home/corey/.bash.d (see bashrc.bats); point it at the sandbox
+  # .bashrc hardcodes BASHD=/home/corey/.bash.d (see interactive.bats); point it at the sandbox
   sed -i "s|^BASHD=/home/corey/.bash.d$|BASHD=\"\$HOME/.bash.d\"|" "$SANDBOX_HOME/.bashrc"
 
   # Silences the Ubuntu /etc/bash.bashrc sudo hint in interactive shells
