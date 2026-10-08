@@ -74,6 +74,12 @@ cp .bashrc ~
 ```
 After this it is a good idead to compare the copied .bash.d/ and .bashrc files with the .bashrc from ubuntu and make sure we aren't missing anything new that is nice to have.
 
+The shell config has characterization tests (PATH, venv activation, rendered prompt) that run in CI on every push. To run them locally:
+```
+sudo apt install bats
+bats test/
+```
+
 ### Git
 Intallation and setup instructions for Git are in the setup/git.md file. This is a somewhat complicated setup so I recommend going through the file for complete setup guide as opposed to just `apt install git-all`.
 
