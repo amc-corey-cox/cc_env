@@ -43,7 +43,7 @@ shopt -s checkwinsize
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Path to extra bashrc source files
-BASHD=/home/corey/.bash.d
+BASHD="$HOME/.bash.d"
 
 # import all files from .bash.d
 # includes alliaces, path, and ps1

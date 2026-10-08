@@ -27,11 +27,10 @@ setup() {
   [ "$output" = "$H/.bash_init" ]
 }
 
-@test "unmodified .bashrc only loads .bash.d from /home/corey" {
-  [ -d /home/corey/.bash.d ] && skip "/home/corey/.bash.d exists on this machine"
-  cp "$REPO_ROOT/.bashrc" "$H/.bashrc"
-  CMD='type -t color_git_venv || echo none' run_interactive "$H"
-  [ "$output" = "none" ]
+@test ".bashrc loads .bash.d from \$HOME" {
+  CMD='type -t color_git_venv activate_venv' run_interactive "$H"
+  [ "${lines[0]}" = "function" ]
+  [ "${lines[1]}" = "function" ]
 }
 
 @test "rm is blocked in interactive shells" {
