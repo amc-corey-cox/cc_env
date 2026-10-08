@@ -39,10 +39,9 @@ _prepend_path "$PYENV_ROOT/shims"
 _prepend_path "$PYENV_ROOT/bin"
 
 # mise - ensure binary and shims are on PATH for all shells
-export MISE_PATH="$HOME/.local/bin/mise"
 _prepend_path "$HOME/.local/share/mise/shims"
-if [ -x "$MISE_PATH" ]; then
-    _prepend_path "$(dirname "$MISE_PATH")"
+if [ -x "$HOME/.local/bin/mise" ]; then
+    _prepend_path "$HOME/.local/bin"
 fi
 
 # Change uv venv directory to not clobber existing .venv

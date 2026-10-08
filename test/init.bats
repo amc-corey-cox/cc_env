@@ -143,6 +143,13 @@ nvm_node() { echo "$H/.nvm/versions/node/$1/bin"; }
   [ "$output" = ".venv/uv-venv unset" ]
 }
 
+@test "mise binary in ~/.local/bin puts that dir ahead of the mise shims" {
+  make_exe "$H/.local/bin/mise" mise
+  mkdir -p "$H/proj"
+  CMD='echo "$PATH"' run_init "$H/proj"
+  [ "$output" = "$H/.local/bin:$TOOLS_PATH:$BASE_PATH" ]
+}
+
 # Debian's bash treats a socket on stdin as an ssh session: it reads .bashrc
 # (which returns early for non-interactive shells) and skips BASH_ENV.
 _socket_stdin_shell() {
