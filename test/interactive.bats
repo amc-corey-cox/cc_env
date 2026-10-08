@@ -103,7 +103,7 @@ setup() {
 }
 
 _login_shell() {
-  cd "$1" && env -i HOME="$SANDBOX_HOME" PATH="$BASE_PATH" bash -l -c 'echo "$PATH"; echo "$BASH_ENV"; echo "VE=${VIRTUAL_ENV:-}"'
+  cd "$1" && env -i HOME="$SANDBOX_HOME" PATH="$BASE_PATH" bash -l -c 'echo "$PATH"; echo "$BASH_ENV"; echo "VE=${VIRTUAL_ENV:-}"' </dev/null
 }
 
 @test "login shell: .profile puts ~/.local/bin ahead of everything" {

@@ -142,3 +142,21 @@ nvm_node() { echo "$H/.nvm/versions/node/$1/bin"; }
   CMD='echo "${UV_VENV_DIR-unset} ${UV_PROJECT_ENVIRONMENT-unset}"' run_init "$H/proj"
   [ "$output" = ".venv/uv-venv unset" ]
 }
+
+# Debian's bash treats a socket on stdin as an ssh session: it reads .bashrc
+# (which returns early for non-interactive shells) and skips BASH_ENV.
+_socket_stdin_shell() {
+  cd "$1" && python3 -c '
+import os, socket, sys
+a, b = socket.socketpair()
+os.dup2(a.fileno(), 0)
+os.execvp("env", ["env", "-i"] + sys.argv[1:])
+' HOME="$SANDBOX_HOME" PATH="$BASE_PATH" BASH_ENV="$SANDBOX_HOME/.bash_init" bash -c 'echo "VE=${VIRTUAL_ENV:-}"'
+}
+
+@test "socket on stdin: bash -c skips BASH_ENV, so no venv activation" {
+  make_venv "$H/proj/.venv" proj-venv
+  run _socket_stdin_shell "$H/proj"
+  echo "$output"
+  [ "$output" = "VE=" ]
+}

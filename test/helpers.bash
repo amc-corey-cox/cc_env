@@ -50,14 +50,14 @@ setup_sandbox() {
 # Non-interactive shell as used by scripts and Claude Code: bash -c with BASH_ENV
 _init_shell() {
   cd "$1" && shift
-  env -i HOME="$SANDBOX_HOME" PATH="$BASE_PATH" BASH_ENV="$SANDBOX_HOME/.bash_init" "$@" bash -c "$CMD"
+  env -i HOME="$SANDBOX_HOME" PATH="$BASE_PATH" BASH_ENV="$SANDBOX_HOME/.bash_init" "$@" bash -c "$CMD" </dev/null
 }
 run_init() { run _init_shell "$@"; echo "$output"; }
 
 # Interactive terminal shell: bash -i reads .bashrc
 _interactive_shell() {
   cd "$1" && shift
-  env -i HOME="$SANDBOX_HOME" PATH="$BASE_PATH" TERM=xterm-256color LANG=C.UTF-8 "$@" bash -i -c "$CMD" 2>/dev/null
+  env -i HOME="$SANDBOX_HOME" PATH="$BASE_PATH" TERM=xterm-256color LANG=C.UTF-8 "$@" bash -i -c "$CMD" </dev/null 2>/dev/null
 }
 run_interactive() { run _interactive_shell "$@"; echo "$output"; }
 
