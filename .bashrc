@@ -72,7 +72,7 @@ done
 unset dir
 
 # if a .bash_aliases file also exists source it
-# most alliases are kept in .bash.d/.bash_alliases
+# most aliases are kept in .bash.d/.bash_aliases
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi

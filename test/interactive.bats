@@ -39,6 +39,12 @@ setup() {
   [ "${lines[1]}" = "function" ]
 }
 
+@test "aliases from .bash.d are defined" {
+  CMD='alias ll la' run_interactive "$H"
+  [ "${lines[0]}" = "alias ll='ls -alF'" ]
+  [ "${lines[1]}" = "alias la='ls -alh'" ]
+}
+
 @test "rm is blocked in interactive shells" {
   CMD='rm -f x; echo "status=$?"' run_interactive "$H"
   [ "${lines[0]}" = "Use 'trash' instead of 'rm'." ]

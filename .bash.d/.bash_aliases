@@ -1,5 +1,5 @@
 # !/bin/bash
-# Set up custom alliaces for bash profile
+# Set up custom aliases for bash profile
 # Source from .bashrc
 
 ### This section is copied from the default Ubuntu .bashrc ###
