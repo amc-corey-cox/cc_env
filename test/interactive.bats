@@ -6,12 +6,13 @@ setup() {
   setup_sandbox
   H="$SANDBOX_HOME"
   TOOLS_PATH="$H/.local/share/mise/shims:$H/.pyenv/bin:$H/.pyenv/shims"
+  DEFAULT_NODE="$H/.nvm/versions/node/v18.20.3/bin"
 }
 
 @test "PATH has tool shims once, though .bash_paths is sourced twice" {
   mkdir -p "$H/proj"
   CMD='echo "$PATH"' run_interactive "$H/proj"
-  [ "$output" = "$TOOLS_PATH:$BASE_PATH" ]
+  [ "$output" = "$TOOLS_PATH:$DEFAULT_NODE:$BASE_PATH" ]
 }
 
 @test ".bash_paths is sourced once per interactive shell" {
@@ -109,7 +110,7 @@ _login_shell() {
 @test "login shell: .profile puts ~/.local/bin ahead of everything" {
   mkdir -p "$H/.local/bin"
   run _login_shell "$H"
-  [[ "${lines[0]}" == "$H/.local/bin:$TOOLS_PATH:$BASE_PATH"* ]]
+  [[ "${lines[0]}" == "$H/.local/bin:$TOOLS_PATH:$DEFAULT_NODE:$BASE_PATH"* ]]
   [ "${lines[1]}" = "$H/.bash_init" ]
 }
 
