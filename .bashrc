@@ -43,36 +43,16 @@ shopt -s checkwinsize
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Path to extra bashrc source files
-BASHD=/home/corey/.bash.d
+BASHD="$HOME/.bash.d"
 
 # import all files from .bash.d
-# includes alliaces, path, and ps1
+# includes aliases, functions, and ps1; .bash_paths was already sourced above
 if [[ -d "${BASHD}" ]]; then
   for f in "$BASHD"/.bash_*; do
+    [[ "$f" == "$BASHD/.bash_paths" ]] && continue
     if [[ -r $f ]]; then
       . $f
     fi
   done
   unset BASHD f 
 fi
-
-# if PATH is blank set PATH to default environment PATH
-if [[ -z $PATH ]]; then
-  . /etc/environment
-fi
-
-# If essential directories are missing warn and leave a sane working environment
-for dir in /bin /usr/bin; do
-  if ! [[ ":$PATH:" == *":$dir:"* ]]; then
-    echo "Warning: $dir was missing from path and added! Check config files."
-    export PATH="$PATH:$dir"
-  fi
-done
-unset dir
-
-# if a .bash_aliases file also exists source it
-# most alliases are kept in .bash.d/.bash_alliases
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-

@@ -6,12 +6,19 @@ setup() {
   setup_sandbox
   H="$SANDBOX_HOME"
   TOOLS_PATH="$H/.local/share/mise/shims:$H/.pyenv/bin:$H/.pyenv/shims"
+  DEFAULT_NODE="$H/.nvm/versions/node/v18.20.3/bin"
 }
 
 @test "PATH has tool shims once, though .bash_paths is sourced twice" {
   mkdir -p "$H/proj"
   CMD='echo "$PATH"' run_interactive "$H/proj"
-  [ "$output" = "$TOOLS_PATH:$BASE_PATH" ]
+  [ "$output" = "$TOOLS_PATH:$DEFAULT_NODE:$BASE_PATH" ]
+}
+
+@test ".bash_paths is sourced once per interactive shell" {
+  echo 'echo sourced >> "$HOME/paths.log"' >> "$H/.bash.d/.bash_paths"
+  CMD='cat "$HOME/paths.log"' run_interactive "$H"
+  [ "$output" = "sourced" ]
 }
 
 @test "venv is not auto-activated in interactive shells" {
@@ -27,11 +34,16 @@ setup() {
   [ "$output" = "$H/.bash_init" ]
 }
 
-@test "unmodified .bashrc only loads .bash.d from /home/corey" {
-  [ -d /home/corey/.bash.d ] && skip "/home/corey/.bash.d exists on this machine"
-  cp "$REPO_ROOT/.bashrc" "$H/.bashrc"
-  CMD='type -t color_git_venv || echo none' run_interactive "$H"
-  [ "$output" = "none" ]
+@test ".bashrc loads .bash.d from \$HOME" {
+  CMD='type -t color_git_venv activate_venv' run_interactive "$H"
+  [ "${lines[0]}" = "function" ]
+  [ "${lines[1]}" = "function" ]
+}
+
+@test "aliases from .bash.d are defined" {
+  CMD='alias ll la' run_interactive "$H"
+  [ "${lines[0]}" = "alias ll='ls -alF'" ]
+  [ "${lines[1]}" = "alias la='ls -alh'" ]
 }
 
 @test "rm is blocked in interactive shells" {
@@ -92,13 +104,13 @@ setup() {
 }
 
 _login_shell() {
-  cd "$1" && env -i HOME="$SANDBOX_HOME" PATH="$BASE_PATH" bash -l -c 'echo "$PATH"; echo "$BASH_ENV"; echo "VE=${VIRTUAL_ENV:-}"'
+  cd "$1" && env -i HOME="$SANDBOX_HOME" PATH="$BASE_PATH" bash -l -c 'echo "$PATH"; echo "$BASH_ENV"; echo "VE=${VIRTUAL_ENV:-}"' </dev/null
 }
 
 @test "login shell: .profile puts ~/.local/bin ahead of everything" {
   mkdir -p "$H/.local/bin"
   run _login_shell "$H"
-  [[ "${lines[0]}" == "$H/.local/bin:$TOOLS_PATH:$BASE_PATH"* ]]
+  [[ "${lines[0]}" == "$H/.local/bin:$TOOLS_PATH:$DEFAULT_NODE:$BASE_PATH"* ]]
   [ "${lines[1]}" = "$H/.bash_init" ]
 }
 

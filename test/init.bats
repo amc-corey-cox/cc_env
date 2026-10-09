@@ -6,6 +6,7 @@ setup() {
   setup_sandbox
   H="$SANDBOX_HOME"
   TOOLS_PATH="$H/.local/share/mise/shims:$H/.pyenv/bin:$H/.pyenv/shims"
+  DEFAULT_NODE="$H/.nvm/versions/node/v18.20.3/bin"
   CMD='echo "$PATH"; echo "VE=${VIRTUAL_ENV:-}"; command -v node || echo "node=none"; python'
 }
 
@@ -15,16 +16,23 @@ nvm_node() { echo "$H/.nvm/versions/node/$1/bin"; }
   mkdir -p "$H/proj"
   run_init "$H/proj"
   [ "$status" -eq 0 ]
-  [ "${lines[0]}" = "$TOOLS_PATH:$BASE_PATH" ]
+  [ "${lines[0]}" = "$TOOLS_PATH:$DEFAULT_NODE:$BASE_PATH" ]
   [ "${lines[1]}" = "VE=" ]
   [ "${lines[3]}" = "pyenv-python" ]
 }
 
-@test "nvm default alias lts/hydrogen is not followed to its version" {
+@test "nvm default alias lts/hydrogen is followed one step to its version" {
   mkdir -p "$H/proj"
   run_init "$H/proj"
-  [[ "${lines[0]}" != *"/.nvm/"* ]]
-  [[ "${lines[2]}" != "$H"/* ]]
+  [ "${lines[0]}" = "$TOOLS_PATH:$(nvm_node v18.20.3):$BASE_PATH" ]
+  [ "${lines[2]}" = "$(nvm_node v18.20.3)/node" ]
+}
+
+@test "nvm default alias with a v-prefixed full version" {
+  echo v20.11.1 > "$H/.nvm/alias/default"
+  mkdir -p "$H/proj"
+  run_init "$H/proj"
+  [ "${lines[2]}" = "$(nvm_node v20.11.1)/node" ]
 }
 
 @test "nvm default alias with a numeric version: newest match, behind mise and pyenv" {
@@ -38,7 +46,7 @@ nvm_node() { echo "$H/.nvm/versions/node/$1/bin"; }
 @test "venv: .venv/bin only" {
   make_venv "$H/proj/.venv" proj-venv
   run_init "$H/proj"
-  [ "${lines[0]}" = "$H/proj/.venv/bin:$TOOLS_PATH:$BASE_PATH" ]
+  [ "${lines[0]}" = "$H/proj/.venv/bin:$TOOLS_PATH:$DEFAULT_NODE:$BASE_PATH" ]
   [ "${lines[1]}" = "VE=$H/proj/.venv" ]
   [ "${lines[3]}" = "proj-venv" ]
 }
@@ -47,7 +55,7 @@ nvm_node() { echo "$H/.nvm/versions/node/$1/bin"; }
   mkdir -p "$H/proj/.venv"
   make_venv "$H/proj/.venv/uv-venv" proj-uv
   run_init "$H/proj"
-  [ "${lines[0]}" = "$H/proj/.venv/uv-venv/bin:$TOOLS_PATH:$BASE_PATH" ]
+  [ "${lines[0]}" = "$H/proj/.venv/uv-venv/bin:$TOOLS_PATH:$DEFAULT_NODE:$BASE_PATH" ]
   [ "${lines[1]}" = "VE=$H/proj/.venv/uv-venv" ]
   [ "${lines[3]}" = "proj-uv" ]
 }
@@ -94,18 +102,18 @@ nvm_node() { echo "$H/.nvm/versions/node/$1/bin"; }
   [ "${lines[2]}" = "$(nvm_node v20.11.1)/node" ]
 }
 
-@test ".nvmrc: lts/* is skipped and stops the search" {
+@test ".nvmrc: lts/* is skipped and stops the search, default node stays" {
   mkdir -p "$H/work/proj"
   echo 20 > "$H/work/.nvmrc"
   echo 'lts/*' > "$H/work/proj/.nvmrc"
   run_init "$H/work/proj"
-  [[ "${lines[0]}" != *"/.nvm/"* ]]
+  [ "${lines[2]}" = "$DEFAULT_NODE/node" ]
 }
 
-@test ".nvmrc: version not installed adds nothing" {
+@test ".nvmrc: version not installed, default node stays" {
   mkdir -p "$H/proj"; echo 16 > "$H/proj/.nvmrc"
   run_init "$H/proj"
-  [[ "${lines[0]}" != *"/.nvm/"* ]]
+  [ "${lines[2]}" = "$DEFAULT_NODE/node" ]
 }
 
 @test ".nvmrc: nearest file wins" {
@@ -141,4 +149,29 @@ nvm_node() { echo "$H/.nvm/versions/node/$1/bin"; }
   mkdir -p "$H/proj"
   CMD='echo "${UV_VENV_DIR-unset} ${UV_PROJECT_ENVIRONMENT-unset}"' run_init "$H/proj"
   [ "$output" = ".venv/uv-venv unset" ]
+}
+
+@test "mise binary in ~/.local/bin puts that dir ahead of the mise shims" {
+  make_exe "$H/.local/bin/mise" mise
+  mkdir -p "$H/proj"
+  CMD='echo "$PATH"' run_init "$H/proj"
+  [ "$output" = "$H/.local/bin:$TOOLS_PATH:$DEFAULT_NODE:$BASE_PATH" ]
+}
+
+# Debian's bash treats a socket on stdin as an ssh session: it reads .bashrc
+# (which returns early for non-interactive shells) and skips BASH_ENV.
+_socket_stdin_shell() {
+  cd "$1" && python3 -c '
+import os, socket, sys
+a, b = socket.socketpair()
+os.dup2(a.fileno(), 0)
+os.execvp("env", ["env", "-i"] + sys.argv[1:])
+' HOME="$SANDBOX_HOME" PATH="$BASE_PATH" BASH_ENV="$SANDBOX_HOME/.bash_init" bash -c 'echo "VE=${VIRTUAL_ENV:-}"'
+}
+
+@test "socket on stdin: bash -c skips BASH_ENV, so no venv activation" {
+  make_venv "$H/proj/.venv" proj-venv
+  run _socket_stdin_shell "$H/proj"
+  echo "$output"
+  [ "$output" = "VE=" ]
 }
