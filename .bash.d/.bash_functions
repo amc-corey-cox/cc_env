@@ -1,5 +1,5 @@
 #!/bin/bash
-# Set up custom alliaces for bash profile
+# Set up custom aliases for bash profile
 # Source from .bashrc
 
 # Additional functions related to the PS1 variable are in .bash.d/.bash_ps1
